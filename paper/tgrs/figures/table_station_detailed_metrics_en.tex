@@ -1,0 +1,21 @@
+\begin{table*}[!t]
+\centering
+\caption{Detailed station-level P-candidate results by data slice. Category counts are ordered as perfect/good/early/late/missed. MAE, RMSE, and timing offsets are detected-trace errors in seconds; Iquique is included as a summary-only blind-domain row because the current release keeps only aggregate category counts.}
+\label{tab:station_detailed}
+{\tgrsdensetablesetup
+\begin{tabular}{@{}llrcccclccc@{}}
+\toprule
+Data slice & Group & $n$ & Det. & Usable & Perfect & Category counts & MAE & RMSE & Med. offset & $\sigma$\\
+\midrule
+InstanceGM $M\geq4$ & all & 2000 & 89.6\% & 85.7\% & 79.3\% & 1586/128/41/38/207 & 0.41 & 1.04 & 0.00 & 1.04\\
+InstanceGM $M\geq4$ & seismic & 1507 & 91.5\% & 88.3\% & 82.5\% & 1243/88/25/23/128 & 0.36 & 0.81 & 0.00 & 0.80\\
+InstanceGM $M\geq4$ & strong-motion & 493 & 84.0\% & 77.7\% & 69.6\% & 343/40/16/15/79 & 0.58 & 1.60 & 0.00 & 1.59\\
+InstanceGM $M<4$ & all & 2000 & 79.0\% & 73.5\% & 68.3\% & 1366/103/47/65/419 & 0.58 & 1.99 & 0.00 & 1.99\\
+InstanceGM $M<4$ & seismic & 1412 & 82.7\% & 78.0\% & 72.7\% & 1026/75/19/48/244 & 0.44 & 1.26 & 0.00 & 1.26\\
+InstanceGM $M<4$ & strong-motion & 588 & 70.2\% & 62.6\% & 57.8\% & 340/28/28/17/175 & 0.97 & 3.28 & 0.00 & 3.24\\
+K-NET $M\geq4$, $d\leq200$ km & all & 715 & 100.0\% & 98.3\% & 92.9\% & 664/39/12/0/0 & 0.43 & 1.15 & -0.50 & 1.07\\
+K-NET $M<4$, $d\leq200$ km & all & 316 & 100.0\% & 99.4\% & 99.4\% & 314/0/2/0/0 & 0.20 & 0.56 & 0.00 & 0.52\\
+Iquique blind region & all & 4001 & 95.1\% & 80.6\% & 74.5\% & 2979/247/575/3/197 & -- & -- & -- & --\\
+\bottomrule
+\end{tabular}}
+\end{table*}

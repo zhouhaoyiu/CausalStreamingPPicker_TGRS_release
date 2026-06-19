@@ -1,0 +1,4 @@
+model,input_contract,n_common,detect_rate,usable_rate,perfect_rate,perfect,good,early,late,miss,mean_gap_chunks,median_gap_chunks,std_gap_chunks
+CausalStreamingPPicker,0.5 s packet causal GRU,715,100.000,98.322,92.867,664,39,12,0,0,-0.867,-1.000,2.131
+RED-PAN 60s,60 s trailing window 0.5 s update,715,98.601,98.182,97.762,699,3,2,1,10,0.257,0.000,12.493
+EQTransformer original,60 s trailing window with 5 s public blinding,715,100.000,0.140,0.000,0,1,1,713,0,28.731,26.000,14.618

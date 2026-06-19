@@ -1,0 +1,11 @@
+Model-weight license for CausalStreamingPPicker
+
+Copyright (c) 2026 Haoyu Zhou
+
+The checkpoint `models/checkpoints/multidomain_best.pt` is released under the
+same MIT terms as the accompanying source code in `LICENSE`.
+
+This license covers the trained model weights produced by the author. It does
+not cover third-party waveform records, station metadata, catalogs, or any
+source datasets used to train or evaluate the model. Those data remain subject
+to the terms of their original providers.

@@ -1,0 +1,5 @@
+method,mae,medae,pm03,mean
+Packet,0.816,0.25,58.1,-0.285
+Rising midpoint,0.8,0.19,60.9,-0.362
+Intra-packet STA/LTA,0.383,0.15,66.9,0.131
+Interpolation,1.09,0.608,13.8,-0.874

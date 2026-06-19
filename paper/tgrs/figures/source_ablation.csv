@@ -1,0 +1,8 @@
+variant,ig_det,ig_delta
+Full,85.1,0.0
+w/o pre-P loss,82.4,-2.7
+w/o delta,4.9,-80.2
+w/o polar.,82.5,-2.6
+w/o cum. RMS,69.6,-15.5
+w/o pos. enc.,69.7,-15.4
+1.0 s packet,86.7,1.7

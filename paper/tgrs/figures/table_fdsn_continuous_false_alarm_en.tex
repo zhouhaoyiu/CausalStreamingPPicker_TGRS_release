@@ -1,0 +1,17 @@
+\begin{table}[!t]
+\centering
+\caption{FDSN continuous strong-motion station-day false-trigger replay at $\theta=0.55$. Ten availability-screened CI strong-motion stations are replayed over four 6 h UTC intervals in 2024, giving 238.50 valid station hours after reset-boundary exclusion. The USGS screen finds no $M\geq3$ event in the station bounding box during these intervals. The reset policy restarts the online state every 320 packets. This is a bounded public-data continuous-stream audit, not an operational network-day certification.}
+\label{tab:fdsn_continuous_false_alarm}
+{\footnotesize\setlength{\tabcolsep}{1.5pt}\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Gate & Conf. & Valid h & Episodes & Per station day & 2 stations/5 s & 3 stations/5 s\\
+\midrule
+none & 1 pkt & 238.50 & 984 & 99.02 & 233 & 88\\
+none & 2 pkt & 238.50 & 79 & 7.95 & 3 & 0\\
+none & 3 pkt & 238.50 & 1 & 0.10 & 0 & 0\\
+narrow & 2 pkt & 238.50 & 79 & 7.95 & 3 & 0\\
+broad & 2 pkt & 238.50 & 78 & 7.85 & 3 & 0\\
+\bottomrule
+\end{tabular}}
+\end{table}

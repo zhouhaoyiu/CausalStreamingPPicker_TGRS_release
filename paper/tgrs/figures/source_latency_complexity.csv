@@ -1,0 +1,5 @@
+model,params,size_mb,samples_per_update,input_context,decision_update,forward_ms,p95_ms,runtime_note
+CausalStreamingPPicker,275827,1.08,50,0.5 s packet plus GRU state,0.5 s,0.32,0.34,Single-thread CPU online packet-step benchmark excluding disk I/O
+PhaseNet,268443,1.06,3001,30 s native window,30 s native first call,3.94,4.83,SeisBench/PyTorch local benchmark
+EQTransformer,376935,1.44,6000,60 s native window,60 s native first call,20.79,25.42,SeisBench/PyTorch local benchmark
+RED-PAN 60s,352817,1.35,6000,60 s trailing window,0.5 s sliding replay,114.24,123.12,Official TensorFlow CPU runtime
