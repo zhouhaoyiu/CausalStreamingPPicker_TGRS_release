@@ -19,9 +19,9 @@ Raw third-party waveform records are not redistributed. Obtain public waveforms 
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_network_coincidence_summary.csv` | 2215 | `00cc848a7e3dd4d1ae0b3d4179d0996cc37ff55de0d34b9ccba792680cfcee69` |
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_report.md` | 1525 | `71c2bbe324d5ba0899e8d4f21c20e64bed7c8c4f25020f36615ad89807f39fae` |
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_stationday_false_alarm_rates.csv` | 1410 | `26566a34c464d541f4e86371914dfbe943fc51c3917f8deb42a49349056e3828` |
-| `outputs/submission/tgrs_preflight_report.md` | 11593 | `9e152cd0e525c995cafa0725939ab5dc79a7ef50a2a858d6cda53d24168e1a2b` |
-| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.md` | 23385 | `02d8622a3ea71180219584701d06804d854be3865e24769569022ed4f58ca294` |
-| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.tsv` | 22722 | `3740b87968a47f12f243d1153b5f66d80e13606bbf34c7de9b85e2015f661a29` |
+| `outputs/submission/tgrs_preflight_report.md` | 11593 | `4662ced470cbd28f317c93267446650b6107ceba80292f369540a2a98b3b4b09` |
+| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.md` | 23327 | `dc4accdee1b91e81c55393578d1f1757702c288b9f840371978969f981699078` |
+| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.tsv` | 22722 | `1e627f8fbfcb16f2508b568287b771dbf8c5443b3f201244d0c55c99a757e3ab` |
 | `paper/tgrs/figures/fig0_compute_efficiency_cn.pdf` | 13420 | `c5a56f85b1fdfb8c5fa8a4a6ef6a28c3fc22a521d54d8122caf5b8470734e9c5` |
 | `paper/tgrs/figures/fig0_compute_efficiency_en.pdf` | 26135 | `bc4c8b9249c94ae8e47e352304467680dac71ea37be6ee490886505d417a5263` |
 | `paper/tgrs/figures/fig1_firstp_latency_cn.pdf` | 15369 | `010bf7a0c4ca88059cf128f6f575843b75c87eb344fc1eec23b3d2b5b8c6971b` |

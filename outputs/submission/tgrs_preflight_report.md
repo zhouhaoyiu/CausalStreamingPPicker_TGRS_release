@@ -24,9 +24,9 @@ WARN items are remaining submission-system values. FAIL items should be fixed be
 | PASS | paper/tgrs/reproducibility/LICENSE | 1,067 bytes |
 | PASS | paper/tgrs/reproducibility/MODEL_LICENSE | 494 bytes |
 | PASS | paper/tgrs/reproducibility/CITATION.cff | 938 bytes |
-| PASS | paper/tgrs/build_tgrs_reproducibility_manifest.py | 25,487 bytes |
+| PASS | paper/tgrs/build_tgrs_reproducibility_manifest.py | 25,581 bytes |
 | PASS | paper/tgrs/build_tgrs_supplement_release.py | 4,980 bytes |
-| PASS | paper/tgrs/submission_readiness_tgrs.md | 18,883 bytes |
+| PASS | paper/tgrs/submission_readiness_tgrs.md | 19,621 bytes |
 | PASS | paper/tgrs/revision/eqanomalynet_style_lessons.md | 14,877 bytes |
 | PASS | paper/tgrs/revision/build_detailed_result_tables.py | 21,065 bytes |
 | PASS | paper/tgrs/revision/manuscript_evidence_coverage_audit.md | 7,912 bytes |
@@ -106,19 +106,19 @@ WARN items are remaining submission-system values. FAIL items should be fixed be
 | PASS | outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_event_catalog_screen.csv | 1 bytes |
 | PASS | outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.md | 23,385 bytes |
 | PASS | outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.tsv | 22,722 bytes |
-| PASS | outputs/submission/tgrs_supplement_release/CausalStreamingPPicker_TGRS_supplement.zip | 10,822,066 bytes |
+| PASS | outputs/submission/tgrs_supplement_release/CausalStreamingPPicker_TGRS_supplement.zip | 10,822,014 bytes |
 | PASS | paper/advisor_review_memo.md | 4,741 bytes |
 | PASS | paper/journal_submission_strategy.md | 2,861 bytes |
 | PASS | paper/build_advisor_review_package.py | 5,538 bytes |
-| PASS | outputs/submission/advisor_review_package/advisor_review_package.zip | 12,252,604 bytes |
+| PASS | outputs/submission/advisor_review_package/advisor_review_package.zip | 12,252,552 bytes |
 | PASS | outputs/submission/advisor_review_package/advisor_review_package/README.md | 3,036 bytes |
 | PASS | outputs/submission/advisor_review_package/advisor_review_package/00_advisor_review_memo.md | 4,741 bytes |
 | PASS | outputs/submission/advisor_review_package/advisor_review_package/01_journal_submission_strategy.md | 2,861 bytes |
 | PASS | outputs/submission/advisor_review_package/advisor_review_package/04_tgrs_submission_readiness.md | 18,883 bytes |
-| PASS | outputs/submission/advisor_review_package/advisor_review_package/08_tgrs_submission_portal_fields.md | 4,512 bytes |
+| PASS | outputs/submission/advisor_review_package/advisor_review_package/08_tgrs_submission_portal_fields.md | 4,496 bytes |
 | PASS | outputs/submission/advisor_review_package/advisor_review_package/tgrs/tgrs_preflight_report.md | 11,593 bytes |
 | PASS | outputs/submission/advisor_review_package/advisor_review_package/tgrs/TGRS_REPRODUCIBILITY_MANIFEST.md | 23,385 bytes |
-| PASS | outputs/submission/advisor_review_package/advisor_review_package/tgrs/CausalStreamingPPicker_TGRS_supplement.zip | 10,822,066 bytes |
+| PASS | outputs/submission/advisor_review_package/advisor_review_package/tgrs/CausalStreamingPPicker_TGRS_supplement.zip | 10,822,014 bytes |
 | PASS | outputs/submission/advisor_review_package/advisor_review_package/tgrs/cover_letter_tgrs.md | 4,237 bytes |
 | PASS | TGRS PDF | 15 pages; 612 x 792 pts (letter) |
 | PASS | TGRS text count | 5681 text words by texcount; informational only, no page-count gate |
