@@ -1,10 +1,10 @@
 # TGRS Reproducibility Manifest
 
-Generated: 2026-06-20T05:52:58
+Generated: 2026-06-20T06:00:29
 Repository: `<repository-root>`
 Source workspace HEAD at generation: `not-a-git-worktree`
 Public repository: `https://github.com/zhouhaoyiu/CausalStreamingPPicker_TGRS_release`
-Public release tag: `v0.3-tgrs-submission`
+Public release tag: `v0.4-tgrs-submission`
 
 ## Claim Scope
 
@@ -27,8 +27,8 @@ TGRS preflight: PASS=121 WARN=1 FAIL=0
 ```text
 Creator:         TeX
 Producer:        pdfTeX-1.40.28
-CreationDate:    Sat Jun 20 05:51:38 2026 CST
-ModDate:         Sat Jun 20 05:51:38 2026 CST
+CreationDate:    Sat Jun 20 05:59:56 2026 CST
+ModDate:         Sat Jun 20 05:59:56 2026 CST
 Custom Metadata: yes
 Metadata Stream: no
 Tagged:          no
@@ -40,7 +40,7 @@ Pages:           15
 Encrypted:       no
 Page size:       612 x 792 pts (letter)
 Page rot:        0
-File size:       704818 bytes
+File size:       704783 bytes
 Optimized:       no
 PDF version:     1.7
 ```
@@ -68,21 +68,21 @@ PDF version:     1.7
 
 | path | role | exists | bytes | sha256 | public |
 | --- | --- | --- | --- | --- | --- |
-| paper/tgrs/tgrs_causal_streaming_picker.pdf | manuscript | yes | 704818 | d8cce04c6a6735e59c10cfe9de5eb6c69ed8c32557d1f80038b27e46a83d402f | yes |
-| paper/tgrs/tgrs_causal_streaming_picker.tex | manuscript_source | yes | 61080 | 33ec9eb395efefde6f1e94068307a59e9cfb3062331a8ab0d324ef50b7ecc489 | yes |
-| paper/tgrs/tgrs_causal_streaming_picker_cn.pdf | internal_review | yes | 752291 | c3a6a9be38791aaed1e3f5ba9230a5015d75c16a08974595deac46e2b3e32f54 | no |
+| paper/tgrs/tgrs_causal_streaming_picker.pdf | manuscript | yes | 704783 | c325f865a95a39a35afd28cb8e26ce1bbd634af16875477ce8a1b55cda41c878 | yes |
+| paper/tgrs/tgrs_causal_streaming_picker.tex | manuscript_source | yes | 61032 | 6ca894b94c663b81ea9c5a92cab3cc39fdb96f6b3cbbee05133425dc853b6438 | yes |
+| paper/tgrs/tgrs_causal_streaming_picker_cn.pdf | internal_review | yes | 752428 | ffb2f9b17506f03c4782c6d757999c8356be2559ccb697b4425383259f3b7eeb | no |
 | paper/tgrs/references.bib | bibliography | yes | 29084 | 980d12198e6dff68ce33cc444faac6e838ce97bb03d5db0c2ba4072367b38963 | yes |
 | paper/tgrs/cover_letter_tgrs.md | submission | yes | 4237 | 6d6fd6fdba97abc68b12a1c1df8aa72906ac7b5a8e6dd40c85f342c0daeec529 | yes |
 | paper/tgrs/cover_letter_tgrs.txt | submission | yes | 4150 | b7e80cfdcee39cc452ba80f43f586d7816cd0fb101ef0899a81e76419fd2470c | yes |
-| paper/tgrs/submission_portal_fields_tgrs.md | submission | yes | 4512 | 4b925ae22b20adf1e3b416e63dbb4231d81da5a6dbe7db01085f18df2430c3bc | yes |
+| paper/tgrs/submission_portal_fields_tgrs.md | submission | yes | 4496 | 1a1a591a262ff16bbf80f8a86dfc83cd5bc862bf92b9bf8773e2c797f7c54569 | yes |
 | paper/tgrs/reproducibility/README.md | release_metadata | yes | 639 | 8d47a2d8129ee77f06ad6da5b01d69a5c7b7d9727bf77c86a250aa2de4d52b7d | yes |
 | paper/tgrs/reproducibility/LICENSE | release_metadata | yes | 1067 | a083074bc5725255331d5cf80691ca44145da891af2da54fb4e5eb50e006dfbc | yes |
 | paper/tgrs/reproducibility/MODEL_LICENSE | release_metadata | yes | 494 | eec62a1786a92f6307e71432f1d9be659caa9cde791c133dcda760a57a09321c | yes |
 | paper/tgrs/reproducibility/CITATION.cff | release_metadata | yes | 938 | 1911a837c5b1e5eef0b94a00b885fcedff922a9551f81315d5895a0b3db42900 | yes |
 | paper/tgrs/preflight_tgrs_submission.py | quality_gate | yes | 28255 | 070d1a81a73434fb4f74674ce018bdd34c828207ae957911479ac007fd05b33c | yes |
 | paper/tgrs/build_tgrs_supplement_release.py | release_packaging | yes | 4980 | 11aefb9e759b7b375432d456d9150853832a85de3a372243679bb58138396ac3 | yes |
-| outputs/submission/tgrs_preflight_report.md | quality_gate_output | yes | 11593 | 6680b1991982dc9b9422803894e6dc4ef1d5f6aa30d1e46efbe6cc9ac46ad7e3 | yes |
-| outputs/submission/tgrs_supplement_release/CausalStreamingPPicker_TGRS_supplement.zip | release_archive | yes | 10822117 | cb5965333e442803f682ed058b87fc9743ac3be248853c8c94a873bc1f9b3d30 | yes |
+| outputs/submission/tgrs_preflight_report.md | quality_gate_output | yes | 11593 | 9e152cd0e525c995cafa0725939ab5dc79a7ef50a2a858d6cda53d24168e1a2b | yes |
+| outputs/submission/tgrs_supplement_release/CausalStreamingPPicker_TGRS_supplement.zip | release_archive | yes | 10822066 | bc7913b8522f4a5e43dbfe48ce04d26c4f9cc47ed085bdc059309a4164aa0b56 | yes |
 | paper/tgrs/revision/eqanomalynet_style_lessons.md | internal_review | yes | 14877 | 5062b0b2b9ccdfe3074c1477b1e65f98c8a5a7f838563bf60b072bd749e84bd6 | no |
 | paper/tgrs/revision/manuscript_evidence_coverage_audit.md | internal_review | yes | 7912 | 1c145f65d207e52140216525ba720a7180130b14d844b2868402d6b3221b2040 | no |
 | paper/tgrs/revision/plot_tgrs_figures.py | figure_generation | yes | 46316 | 269b238f0439673572cf7e0b79d9e355320300ca4d9802409879a095ef3ee44e | yes |
@@ -184,4 +184,4 @@ _None among the manifest-tracked artifacts._
 
 ## Release Freeze Point
 
-For submission, use the supplement archive SHA256 and public repository tag `v0.3-tgrs-submission` as the release freeze points.
+For submission, use the supplement archive SHA256 and public repository tag `v0.4-tgrs-submission` as the release freeze points.

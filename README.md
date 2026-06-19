@@ -19,9 +19,9 @@ Raw third-party waveform records are not redistributed. Obtain public waveforms 
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_network_coincidence_summary.csv` | 2215 | `00cc848a7e3dd4d1ae0b3d4179d0996cc37ff55de0d34b9ccba792680cfcee69` |
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_report.md` | 1525 | `71c2bbe324d5ba0899e8d4f21c20e64bed7c8c4f25020f36615ad89807f39fae` |
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_stationday_false_alarm_rates.csv` | 1410 | `26566a34c464d541f4e86371914dfbe943fc51c3917f8deb42a49349056e3828` |
-| `outputs/submission/tgrs_preflight_report.md` | 11593 | `6680b1991982dc9b9422803894e6dc4ef1d5f6aa30d1e46efbe6cc9ac46ad7e3` |
-| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.md` | 23385 | `6fb5a796f7b5afce2377e8537c4c5867a70d7bc81d76993235039196424870ee` |
-| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.tsv` | 22722 | `115368e8a10d87ba75425ed4fa80a109669ea9384a8f2cd1f5bfa620d5dbf28a` |
+| `outputs/submission/tgrs_preflight_report.md` | 11593 | `9e152cd0e525c995cafa0725939ab5dc79a7ef50a2a858d6cda53d24168e1a2b` |
+| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.md` | 23385 | `02d8622a3ea71180219584701d06804d854be3865e24769569022ed4f58ca294` |
+| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.tsv` | 22722 | `3740b87968a47f12f243d1153b5f66d80e13606bbf34c7de9b85e2015f661a29` |
 | `paper/tgrs/figures/fig0_compute_efficiency_cn.pdf` | 13420 | `c5a56f85b1fdfb8c5fa8a4a6ef6a28c3fc22a521d54d8122caf5b8470734e9c5` |
 | `paper/tgrs/figures/fig0_compute_efficiency_en.pdf` | 26135 | `bc4c8b9249c94ae8e47e352304467680dac71ea37be6ee490886505d417a5263` |
 | `paper/tgrs/figures/fig1_firstp_latency_cn.pdf` | 15369 | `010bf7a0c4ca88059cf128f6f575843b75c87eb344fc1eec23b3d2b5b8c6971b` |
@@ -90,8 +90,8 @@ Raw third-party waveform records are not redistributed. Obtain public waveforms 
 | `paper/tgrs/reproducibility/LICENSE` | 1067 | `a083074bc5725255331d5cf80691ca44145da891af2da54fb4e5eb50e006dfbc` |
 | `paper/tgrs/reproducibility/MODEL_LICENSE` | 494 | `eec62a1786a92f6307e71432f1d9be659caa9cde791c133dcda760a57a09321c` |
 | `paper/tgrs/reproducibility/README.md` | 639 | `8d47a2d8129ee77f06ad6da5b01d69a5c7b7d9727bf77c86a250aa2de4d52b7d` |
-| `paper/tgrs/tgrs_causal_streaming_picker.pdf` | 704818 | `d8cce04c6a6735e59c10cfe9de5eb6c69ed8c32557d1f80038b27e46a83d402f` |
-| `paper/tgrs/tgrs_causal_streaming_picker.tex` | 61080 | `33ec9eb395efefde6f1e94068307a59e9cfb3062331a8ab0d324ef50b7ecc489` |
+| `paper/tgrs/tgrs_causal_streaming_picker.pdf` | 704783 | `c325f865a95a39a35afd28cb8e26ce1bbd634af16875477ce8a1b55cda41c878` |
+| `paper/tgrs/tgrs_causal_streaming_picker.tex` | 61032 | `6ca894b94c663b81ea9c5a92cab3cc39fdb96f6b3cbbee05133425dc853b6438` |
 | `requirements.txt` | 165 | `7479922b77e1b4ebec8c4199c5fb8c181c1d2de77fd1b2bd1cf796ae0e6b9c25` |
 | `scripts/evaluation/eval_compute_efficiency.py` | 34971 | `5b9eeebe01591082f0ebaeeca25e08886b8a20f0d7c5070c5b4599907b7df9d4` |
 | `scripts/evaluation/eval_cwa_tsmip_external.py` | 14631 | `ff320c673e5bf0b1db4fbb28805dedceeffa425c66d47d63d5107a86b1c35d64` |
