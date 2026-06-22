@@ -164,7 +164,7 @@ def write_report(out_dir: Path, starts: list[str], agg_rates: pd.DataFrame, agg_
         "",
         "This campaign uses public FDSN chronological strong-motion acceleration",
         "streams. It is stronger than clip-based station-time replay, but still a",
-        "bounded public-data audit rather than full operational certification.",
+        "bounded public-data check rather than full operational certification.",
         "",
         f"Catalog events found during screened intervals: {len(events)}",
         "",

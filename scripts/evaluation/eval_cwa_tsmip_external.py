@@ -194,7 +194,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--min-snr-db", type=float, default=None)
     p.add_argument("--min-magnitude", type=float, default=None)
     p.add_argument("--max-p-uncertainty-s", type=float, default=None)
-    p.add_argument("--decision-start-offset-chunks", type=int, default=None, help="If set, first-trigger search starts at the labeled P-arrival chunk plus this offset. Use only for near-P-arrival sensitivity checks, not false-trigger auditing.")
+    p.add_argument("--decision-start-offset-chunks", type=int, default=None, help="If set, first-trigger search starts at the labeled P-arrival chunk plus this offset. Use only for near-P-arrival sensitivity checks, not false-trigger checks.")
     p.add_argument("--seed", type=int, default=20260617)
     p.add_argument("--device", default="cpu")
     p.add_argument("--allow-all-cwa", action="store_true", help="Run on all CWA rows if TSMIP rows cannot be identified.")

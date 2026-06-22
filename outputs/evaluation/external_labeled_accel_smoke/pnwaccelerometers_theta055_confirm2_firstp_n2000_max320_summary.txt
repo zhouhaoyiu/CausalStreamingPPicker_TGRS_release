@@ -1,0 +1,21 @@
+External labeled waveform smoke benchmark
+====================================================
+dataset: PNWAccelerometers
+chunks: 
+max_samples: 2000
+threshold: 0.55
+confirm_chunks: 2
+min_snr_db: None
+min_magnitude: None
+max_p_uncertainty_s: None
+decision_start_offset_chunks: None
+rows: outputs/evaluation/external_labeled_accel_smoke/pnwaccelerometers_theta055_confirm2_firstp_n2000_max320_rows.csv
+
+n: 2000
+detected: 988/2000 = 49.4%
+usable: 735/2000 = 36.8%
+perfect: 36.6%
+categories: {'miss': 1012, 'perfect': 733, 'early': 246, 'good': 2, 'late': 7}
+median_gap_chunks: 0.0
+
+Boundary: PNWAccelerometers labeled smoke benchmark; not full external validation until scaled and frozen.

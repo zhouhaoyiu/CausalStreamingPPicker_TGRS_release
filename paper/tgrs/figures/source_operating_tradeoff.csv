@@ -1,0 +1,16 @@
+threshold,confirm_chunks,n,detected,detection_rate_percent,usable,usable_rate_percent,perfect_rate_percent,miss,median_available_delay_sec,p95_available_delay_sec,alarm_episodes,false_alarm_episodes_per_hour,stations_with_alarm,station_alarm_rate_percent,recommended,interpretation_en,interpretation_cn,source_table,gate,valid_chunks,valid_hours,station_day_equivalent,over_threshold_chunks,artifact_gated_valid_chunks,interval_count,over_threshold_rate_percent,artifact_gated_valid_rate_percent,false_alerts_per_hour,false_alerts_per_station_day,station_n,window_sec,clusters,clusters_per_station_day_equiv
+0.3,1,715.0,715.0,100.0,695.0,97.2027972027972,79.16083916083916,0.0,-0.5,0.0,178.0,133.75078271759548,134.0,40.119760479041915,False,Permissive; false alarms too frequent,阈值偏宽，误报过多,knet_threshold_confirmation,,,,,,,,,,,,,,,
+0.3,2,715.0,715.0,100.0,710.0,99.3006993006993,95.66433566433568,0.0,0.0,0.5,141.0,105.94865372573577,120.0,35.92814371257485,False,Permissive; false alarms too frequent,阈值偏宽，误报过多,knet_threshold_confirmation,,,,,,,,,,,,,,,
+0.3,3,715.0,703.0,98.32167832167832,702.0,98.1818181818182,67.83216783216784,12.0,0.5,1.0,112.0,84.1577958672511,100.0,29.94011976047904,False,Permissive; false alarms too frequent,阈值偏宽，误报过多,knet_threshold_confirmation,,,,,,,,,,,,,,,
+0.55,1,715.0,715.0,100.0,703.0,98.32167832167832,92.86713286713288,0.0,-0.5,0.0,26.0,19.536631183469005,22.0,6.58682634730539,False,Sensitive; false alarms remain higher,较敏感，误报仍偏高,knet_threshold_confirmation,,,,,,,,,,,,,,,
+0.55,2,715.0,710.0,99.3006993006993,709.0,99.16083916083916,98.1818181818182,5.0,0.0,0.5,3.0,2.2542266750156545,3.0,0.8982035928143712,True,Recommended operating point,推荐工作点,knet_threshold_confirmation,,,,,,,,,,,,,,,
+0.55,3,715.0,399.0,55.8041958041958,399.0,55.8041958041958,51.18881118881119,316.0,0.5,1.0,0.0,0.0,0.0,0.0,False,Too strict; large detection loss,约束过强，检出损失明显,knet_threshold_confirmation,,,,,,,,,,,,,,,
+0.55,1,,,,,,,,,,1351.0,,,,,,,fdsn_single_station,none,2217980.0,308.0527777777778,12.835532407407406,1462.0,0.0,11.0,0.0659158333258189,0.0,4.385612133562971,105.25469120551134,,,,
+0.55,2,,,,,,,,,,107.0,,,,,,,fdsn_single_station,none,2217980.0,308.0527777777778,12.835532407407406,1462.0,0.0,11.0,0.0659158333258189,0.0,0.3473430779357794,8.336233870458706,,,,
+0.55,3,,,,,,,,,,3.0,,,,,,,fdsn_single_station,none,2217980.0,308.0527777777778,12.835532407407406,1462.0,0.0,11.0,0.0659158333258189,0.0,0.009738590970162,0.2337261832838889,,,,
+0.55,2,,,,,,,,,,,,,,,,,fdsn_coincident_false_triggers,none,,,,,,11.0,,,,,2.0,3.0,3.0,0.2337261832838889
+0.55,2,,,,,,,,,,,,,,,,,fdsn_coincident_false_triggers,none,,,,,,11.0,,,,,2.0,5.0,4.0,0.3116349110451853
+0.55,2,,,,,,,,,,,,,,,,,fdsn_coincident_false_triggers,none,,,,,,11.0,,,,,3.0,3.0,0.0,0.0
+0.55,2,,,,,,,,,,,,,,,,,fdsn_coincident_false_triggers,none,,,,,,11.0,,,,,3.0,5.0,0.0,0.0
+0.55,2,,,,,,,,,,,,,,,,,fdsn_coincident_false_triggers,none,,,,,,11.0,,,,,4.0,3.0,0.0,0.0
+0.55,2,,,,,,,,,,,,,,,,,fdsn_coincident_false_triggers,none,,,,,,11.0,,,,,4.0,5.0,0.0,0.0

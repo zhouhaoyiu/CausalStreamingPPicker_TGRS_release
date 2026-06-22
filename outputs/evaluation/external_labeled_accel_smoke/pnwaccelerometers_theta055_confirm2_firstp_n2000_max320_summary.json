@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "n": 2000,
+  "detected": 988,
+  "usable": 735,
+  "detect_rate": 49.4,
+  "usable_rate": 36.75,
+  "perfect_rate": 36.65,
+  "categories": {
+    "miss": 1012,
+    "perfect": 733,
+    "early": 246,
+    "good": 2,
+    "late": 7
+  },
+  "margin_chunks": 3,
+  "boundary": "PNWAccelerometers labeled smoke benchmark; not full external validation until scaled and frozen.",
+  "median_gap_chunks": 0.0,
+  "mean_gap_chunks": -19.41599190283401,
+  "p95_abs_gap_chunks": 87.0
+}

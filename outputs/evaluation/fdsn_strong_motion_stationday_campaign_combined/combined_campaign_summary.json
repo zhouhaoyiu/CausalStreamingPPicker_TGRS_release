@@ -1,0 +1,9 @@
+{
+  "campaign_dirs": [
+    "/Users/yojironoda/Desktop/simple/outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10",
+    "/Users/yojironoda/Desktop/simple/outputs/evaluation/fdsn_strong_motion_stationday_campaign_extra1h"
+  ],
+  "valid_hours": 308.05277777777775,
+  "station_day_equivalent": 12.835532407407406,
+  "event_catalog_count": 0
+}

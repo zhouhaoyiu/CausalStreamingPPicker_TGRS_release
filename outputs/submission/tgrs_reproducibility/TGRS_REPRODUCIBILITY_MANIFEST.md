@@ -1,6 +1,6 @@
 # TGRS Reproducibility Manifest
 
-Generated: 2026-06-20T06:04:06
+Generated: 2026-06-21T05:11:31
 Repository: `<repository-root>`
 Public repository: `https://github.com/zhouhaoyiu/CausalStreamingPPicker_TGRS_release`
 Public release tag: `v0.5-tgrs-submission`
@@ -17,7 +17,7 @@ Public release tag: `v0.5-tgrs-submission`
 ## Current Preflight
 
 ```text
-TGRS preflight: PASS=121 WARN=1 FAIL=0
+TGRS preflight: PASS=138 WARN=1 FAIL=0
 <repository-root>/outputs/submission/tgrs_preflight_report.md
 ```
 
@@ -26,8 +26,8 @@ TGRS preflight: PASS=121 WARN=1 FAIL=0
 ```text
 Creator:         TeX
 Producer:        pdfTeX-1.40.28
-CreationDate:    Sat Jun 20 05:59:56 2026 CST
-ModDate:         Sat Jun 20 05:59:56 2026 CST
+CreationDate:    Sun Jun 21 05:11:11 2026 CST
+ModDate:         Sun Jun 21 05:11:11 2026 CST
 Custom Metadata: yes
 Metadata Stream: no
 Tagged:          no
@@ -39,7 +39,7 @@ Pages:           15
 Encrypted:       no
 Page size:       612 x 792 pts (letter)
 Page rot:        0
-File size:       704783 bytes
+File size:       686205 bytes
 Optimized:       no
 PDF version:     1.7
 ```
@@ -54,9 +54,13 @@ PDF version:     1.7
 | Run spike-injected false-trigger stress test | <zhy-python> scripts/evaluation/eval_spike_false_alarm_stress.py --device cpu --thresholds 0.55 --confirm-list 1,2,3 |
 | Run post-hoc artifact gate audit | <zhy-python> scripts/evaluation/eval_artifact_gate_operating_points.py |
 | Run STEAD labeled-noise station-time false-trigger replay | <zhy-python> scripts/evaluation/eval_stead_noise_stationday_false_alarm.py --max-traces 3000 --station-limit 300 --min-traces-per-station 5 --device mps |
-| Run PNWAccelerometers high-SNR near-P-arrival external check | <zhy-python> scripts/evaluation/eval_cwa_tsmip_external.py --dataset PNWAccelerometers --max-samples 500 --max-chunks 320 --threshold 0.55 --confirm-chunks 2 --min-snr-db 20 --decision-start-offset-chunks -3 --tag pnwaccelerometers_theta055_confirm2_firstp_n500_snr20_max320_plocal_m3 --device cpu |
-| Run PNWAccelerometers unfiltered random-record check | <zhy-python> scripts/evaluation/eval_cwa_tsmip_external.py --dataset PNWAccelerometers --max-samples 500 --threshold 0.55 --confirm-chunks 2 --tag pnwaccelerometers_theta055_confirm2_firstp_n500 --device cpu |
+| Run PNWAccelerometers high-SNR near-P-arrival external check | <zhy-python> scripts/evaluation/eval_cwa_tsmip_external.py --dataset PNWAccelerometers --max-samples 2000 --max-chunks 320 --threshold 0.55 --confirm-chunks 2 --min-snr-db 20 --decision-start-offset-chunks -3 --tag pnwaccelerometers_theta055_confirm2_firstp_n2000_snr20_max320_plocal_m3 --device cpu |
+| Run PNWAccelerometers unfiltered random-record check | <zhy-python> scripts/evaluation/eval_cwa_tsmip_external.py --dataset PNWAccelerometers --max-samples 2000 --max-chunks 320 --threshold 0.55 --confirm-chunks 2 --tag pnwaccelerometers_theta055_confirm2_firstp_n2000_max320 --device cpu |
 | Run FDSN continuous strong-motion station-day false-trigger campaign | <zhy-python> scripts/evaluation/run_fdsn_strong_motion_stationday_campaign.py --starts 2024-01-03T00:00:00,2024-02-07T00:00:00,2024-03-12T00:00:00,2024-05-21T00:00:00 --stations PASC,SVD,USC,WTT2,CAC,FON,CFS,CJV2,LAF,LDR --duration-hours 6 --download-chunk-hours 1 --device mps --output-dir outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10 |
+| Run FDSN one-hour continuous strong-motion extension campaign | <zhy-python> scripts/evaluation/run_fdsn_strong_motion_stationday_campaign.py --starts 2024-06-18T00:00:00,2024-07-23T00:00:00,2024-08-28T00:00:00,2024-09-17T00:00:00,2024-10-22T00:00:00,2024-11-19T00:00:00,2024-12-10T00:00:00 --stations PASC,SVD,USC,WTT2,CAC,FON,CFS,CJV2,LAF,LDR --duration-hours 1 --download-chunk-hours 1 --device mps --output-dir outputs/evaluation/fdsn_strong_motion_stationday_campaign_extra1h |
+| Combine FDSN continuous strong-motion campaigns | <zhy-python> scripts/evaluation/combine_fdsn_campaign_summaries.py |
+| Run K-NET M>=4 Delaunay-neighbor association gate | <zhy-python> scripts/evaluation/eval_knet_delaunay_association_gate.py --details outputs/evaluation/confirmation_effect/knet_test_mge4_dle200_details.csv --metadata data/knet_accel/metadata.csv --output-dir outputs/evaluation/delaunay_association --tag knet_mge4_dle200 --dataset-label 'K-NET test split, M >= 4, source distance <= 200 km' |
+| Run K-NET M<4 Delaunay-neighbor association gate | <zhy-python> scripts/evaluation/eval_knet_delaunay_association_gate.py --details outputs/evaluation/confirmation_effect/knet_test_lt4_dle200_details.csv --metadata data/knet_accel/metadata.csv --output-dir outputs/evaluation/delaunay_association --tag knet_lt4_dle200 --dataset-label 'K-NET test split, M < 4, source distance <= 200 km' |
 | Regenerate detailed TGRS result tables | <zhy-python> paper/tgrs/revision/build_detailed_result_tables.py |
 | Run TGRS preflight | <zhy-python> paper/tgrs/preflight_tgrs_submission.py |
 | Build TGRS supplement release archive | <zhy-python> paper/tgrs/build_tgrs_supplement_release.py |
@@ -67,33 +71,34 @@ PDF version:     1.7
 
 | path | role | exists | bytes | sha256 | public |
 | --- | --- | --- | --- | --- | --- |
-| paper/tgrs/tgrs_causal_streaming_picker.pdf | manuscript | yes | 704783 | c325f865a95a39a35afd28cb8e26ce1bbd634af16875477ce8a1b55cda41c878 | yes |
-| paper/tgrs/tgrs_causal_streaming_picker.tex | manuscript_source | yes | 61032 | 6ca894b94c663b81ea9c5a92cab3cc39fdb96f6b3cbbee05133425dc853b6438 | yes |
-| paper/tgrs/tgrs_causal_streaming_picker_cn.pdf | internal_review | yes | 752428 | ffb2f9b17506f03c4782c6d757999c8356be2559ccb697b4425383259f3b7eeb | no |
-| paper/tgrs/references.bib | bibliography | yes | 29084 | 980d12198e6dff68ce33cc444faac6e838ce97bb03d5db0c2ba4072367b38963 | yes |
-| paper/tgrs/cover_letter_tgrs.md | submission | yes | 4237 | 6d6fd6fdba97abc68b12a1c1df8aa72906ac7b5a8e6dd40c85f342c0daeec529 | yes |
-| paper/tgrs/cover_letter_tgrs.txt | submission | yes | 4150 | b7e80cfdcee39cc452ba80f43f586d7816cd0fb101ef0899a81e76419fd2470c | yes |
-| paper/tgrs/submission_portal_fields_tgrs.md | submission | yes | 4496 | 831fe60c7118afb9a332f6f4a6fe053610888b06dc9702b648d4090863386f8a | yes |
+| paper/tgrs/tgrs_causal_streaming_picker.pdf | manuscript | yes | 686205 | 29f69067f8f0ec5988baaca6e8adc71ad80b74c9ebf6ce8a26a5cb49645f3e93 | yes |
+| paper/tgrs/tgrs_causal_streaming_picker.tex | manuscript_source | yes | 62715 | 2db9d0864e97c84e47711e6b4275606555df26a9ebc9bd6b650f74a35e796333 | yes |
+| paper/tgrs/tgrs_causal_streaming_picker_cn.pdf | internal_review | yes | 727226 | 36a64248405594074c313a62c4b08638a07e28457f82276a1b9e9299c8b48e38 | no |
+| paper/tgrs/references.bib | bibliography | yes | 29690 | 8003a79c8c28201334f78df4a61c318bb4efa07f98ba72a78576dc35299b35ef | yes |
+| paper/tgrs/cover_letter_tgrs.md | submission | yes | 4506 | 77929ed7fe9ad9d9d7d16fddc0accd5abe25220a3b02fd60a62083e66cf38417 | yes |
+| paper/tgrs/cover_letter_tgrs.txt | submission | yes | 4419 | 713fe09e441c03d8a323d407497f8c7cbfe6f1ed32c05dbb2874da17572ba767 | yes |
+| paper/tgrs/submission_portal_fields_tgrs.md | submission | yes | 4544 | 74618be3c061f58a82e54ef46c924e8143a5d67f8b8b890b157bfc5809f3fabf | yes |
 | paper/tgrs/reproducibility/README.md | release_metadata | yes | 639 | 8d47a2d8129ee77f06ad6da5b01d69a5c7b7d9727bf77c86a250aa2de4d52b7d | yes |
 | paper/tgrs/reproducibility/LICENSE | release_metadata | yes | 1067 | a083074bc5725255331d5cf80691ca44145da891af2da54fb4e5eb50e006dfbc | yes |
 | paper/tgrs/reproducibility/MODEL_LICENSE | release_metadata | yes | 494 | eec62a1786a92f6307e71432f1d9be659caa9cde791c133dcda760a57a09321c | yes |
 | paper/tgrs/reproducibility/CITATION.cff | release_metadata | yes | 938 | 1911a837c5b1e5eef0b94a00b885fcedff922a9551f81315d5895a0b3db42900 | yes |
-| paper/tgrs/preflight_tgrs_submission.py | quality_gate | yes | 28255 | 070d1a81a73434fb4f74674ce018bdd34c828207ae957911479ac007fd05b33c | yes |
-| paper/tgrs/build_tgrs_supplement_release.py | release_packaging | yes | 4980 | 11aefb9e759b7b375432d456d9150853832a85de3a372243679bb58138396ac3 | yes |
-| outputs/submission/tgrs_preflight_report.md | quality_gate_output | yes | 11593 | 4662ced470cbd28f317c93267446650b6107ceba80292f369540a2a98b3b4b09 | yes |
-| outputs/submission/tgrs_supplement_release/CausalStreamingPPicker_TGRS_supplement.zip | release_archive | yes | 10822014 | 3954e242be0f378174a79bfc0fa9de669c3ce173ff1593e26adcfe1eb10f8e5b | yes |
+| paper/tgrs/preflight_tgrs_submission.py | quality_gate | yes | 29952 | be60d4cf8a42aabf84dd6865c9fb5505d14ceff964805488b1c7c0df9b57fc50 | yes |
+| paper/tgrs/build_tgrs_supplement_release.py | release_packaging | yes | 6520 | 27a6f753d75d94811cd67b94ccc4ec19171555c411d7902b3dd9cca350995243 | yes |
+| outputs/submission/tgrs_preflight_report.md | quality_gate_output | yes | 12353 | 56a24070264f6e64e163c917538cb953b42f5b83ab6b7c7112578130176694c5 | yes |
+| outputs/submission/tgrs_supplement_release/CausalStreamingPPicker_TGRS_supplement.zip | release_archive | yes | 10923792 | a9de448c75f5834d164402a07fc2a20a140bd5b33165a9dfe7faedcbd9cc1e37 | yes |
 | paper/tgrs/revision/eqanomalynet_style_lessons.md | internal_review | yes | 14877 | 5062b0b2b9ccdfe3074c1477b1e65f98c8a5a7f838563bf60b072bd749e84bd6 | no |
-| paper/tgrs/revision/manuscript_evidence_coverage_audit.md | internal_review | yes | 7912 | 1c145f65d207e52140216525ba720a7180130b14d844b2868402d6b3221b2040 | no |
-| paper/tgrs/revision/plot_tgrs_figures.py | figure_generation | yes | 46316 | 269b238f0439673572cf7e0b79d9e355320300ca4d9802409879a095ef3ee44e | yes |
-| paper/tgrs/plot_knet_column_figure.py | figure_generation | yes | 29850 | faa895a992acee8f41f84535b16820c0fa15b2f629e66c85318415a1f7a55932 | yes |
-| paper/tgrs/revision/build_detailed_result_tables.py | table_generation | yes | 21065 | 7785a9a1684f78edc5a3dec12efdb63114da63134f8d67e461934292f01e4636 | yes |
-| paper/tgrs/figures/fig_task_positioning_en.pdf | figure | yes | 67274 | 110447efb1b75aae80c1173adcf25b8528bda5a3a152ce7efc61bab4c62629be | yes |
+| paper/tgrs/revision/manuscript_evidence_coverage_audit.md | internal_review | yes | 7973 | 0a14faad50b2604b3ba3371bc853c4f3daf35af0325239b1defa5db7cd738590 | no |
+| paper/tgrs/revision/plot_tgrs_figures.py | figure_generation | yes | 55392 | aa04d905270daf6e01f1c9eeca515f08250f4bbb4df294ae6c59e80ed8c06f29 | yes |
+| paper/tgrs/plot_knet_column_figure.py | figure_generation | yes | 29849 | 6cb42eb5bf02e0b7afc6f5c84d4f4eeee960dafd0e86f470a209ebc72b0ef9bd | yes |
+| paper/tgrs/revision/build_detailed_result_tables.py | table_generation | yes | 21065 | 831f42b75c13b10e19c88d066878997cb8a0d452e19daacb9257189de4a7b177 | yes |
+| paper/tgrs/figures/fig_task_positioning_en.pdf | figure | yes | 67274 | 3a5aa68bc3a0d4aaaa452a9772ea6ea52f06473be7c24e0b03ec9bf46f57b406 | yes |
 | paper/tgrs/figures/fig_architecture_en.pdf | figure | yes | 47121 | 094d9b991393259c12da680159c188052a0b90a6ebc414f4fe74d067f90cd380 | yes |
 | paper/tgrs/figures/fig1_firstp_latency_en_column.pdf | figure | yes | 18802 | f10f4691de39441812918e679731c4b543e7803d3277f47fa75262b047c3a0e0 | yes |
-| paper/tgrs/figures/fig_causal_replay_case_en.pdf | figure | yes | 96242 | 6c48ed5f14430ee0a2f6dc71089a170acb0a8c28afbb880bbdb5d8fca959a653 | yes |
+| paper/tgrs/figures/fig_causal_replay_case_en.pdf | figure | yes | 96242 | 1abcfe5953e8cf716d3bc65d707f6aad943801c122312814804a2e5d7d297c5e | yes |
 | paper/tgrs/figures/fig2_knet_bins_en_column.pdf | figure | yes | 32119 | 609b244cdafa87be1f87bf7b3a93c942572ac28491d980e5c9ea9defc4da1438 | yes |
 | paper/tgrs/figures/fig_knet_imperfect_association_en.pdf | figure | yes | 75022 | 19f76bfa4a91a6b858f80dca3ccdcbe1ffb17d7c8abbbc67abfc7030963e73bc | yes |
-| paper/tgrs/figures/fig_spike_response_map_en.pdf | figure | yes | 94330 | 5bbe50e37a8e29fd62c2b1848d0a27083b3d772e1142f6885e463ccd7c991c27 | yes |
+| paper/tgrs/figures/fig_operating_tradeoff_en.pdf | figure | yes | 72757 | 17858fac7dbad5e64b0a519d95e31260bc345957f02f681d00913c6a4b285915 | yes |
+| paper/tgrs/figures/fig_spike_response_map_en.pdf | figure | yes | 94330 | 2566968df5dab222a48c44799ab0e9c859b2210641ca46f157663a576ea0084a | yes |
 | paper/tgrs/figures/source_firstp.csv | figure_source | yes | 203 | b19bfa4d0cb2aa8734d68b2dfa85bb5a7fd12a17d3d5e9699fbc8eea61a6589c | yes |
 | paper/tgrs/figures/source_knet_categories.csv | figure_source | yes | 129 | 7be21e8531c8a5a9f042a5d27ac8a6f45c827c5fa9bf8f2b7377030dcac9942e | yes |
 | paper/tgrs/figures/source_knet_by_magnitude.csv | figure_source | yes | 154 | 4f5c6cff1c636d07b47d04123babf74cea651450feb11af0400e59803aa88b29 | yes |
@@ -101,6 +106,7 @@ PDF version:     1.7
 | paper/tgrs/figures/source_redpan_knet_comparison.csv | figure_source | yes | 481 | 2da6f57aa02db9343c22e226f3ce070762fe5708f1c9c3305fbbc2457d5bff19 | yes |
 | paper/tgrs/figures/source_ablation.csv | figure_source | yes | 175 | 43109e9f955047008e1067b2e4b45b80d371a09903fb4dd963f0e8497ec6de2d | yes |
 | paper/tgrs/figures/source_causal_replay_case.csv | figure_source | yes | 36355 | 4a2632104e2ad49008db39dcb64a52777780c55c5739b8dc4f824c7b5da0d86e | yes |
+| paper/tgrs/figures/source_operating_tradeoff.csv | figure_source | yes | 3138 | 9b252ec7d9f564f8d18823fe981fbab71b9bfdbe6df1b02dcaf1ed372ef2c8dd | yes |
 | paper/tgrs/figures/source_spike_response_map.csv | figure_source | yes | 1940190 | e4355e7c699f4aaafd1f97f70cf8e8cbbece1b4a9eabb396a1155a3ef7c4458e | yes |
 | paper/tgrs/figures/source_station_detailed_metrics.csv | table_source | yes | 1733 | e1c51a5aaa14e9e0fdb2390a876501d625b6c9001b9267a557222d836db9430a | yes |
 | paper/tgrs/figures/source_knet_stratified_detailed_metrics.csv | table_source | yes | 1359 | d50893bfb3ba0b2c5ebb71eaa09cd47e72aeb438a9e0197bd51d9fb7120ad1d0 | yes |
@@ -109,14 +115,14 @@ PDF version:     1.7
 | paper/tgrs/figures/source_spike_false_alarm_stress.csv | table_source | yes | 1700 | 49047fcba61b948557c72e1a8f800184a6e754c6739e157bd41bd30284e9537e | yes |
 | paper/tgrs/figures/table_station_detailed_metrics_en.tex | table_source | yes | 1611 | 09db4acb12970d14a70e5e6682fb9a6920c212fcf98d5f026f15a19b691b6f7a | yes |
 | paper/tgrs/figures/table_knet_stratified_detailed_en.tex | table_source | yes | 1199 | 81dd11b52786fd656fe099279695747d2acd3dee6294fec0027b09e0962e44c1 | yes |
-| paper/tgrs/figures/table_spike_false_alarm_en.tex | table_source | yes | 777 | 4cc58fe825f84d1cd45a12525ae997e6bfb7d54713068788bd7f66d4b3c3f4ba | yes |
-| paper/tgrs/figures/table_continuous_false_alarm_en.tex | table_source | yes | 1353 | e082a84ec1fc73bad4a80aa1889f93b81836254a81408183478947f3530d0b4d | yes |
+| paper/tgrs/figures/table_spike_false_alarm_en.tex | table_source | yes | 1096 | 8ff64dad5632e3b74341aaeb880e69bc5624508b2cfc7d0e88f46c2ec7f7b9ef | yes |
+| paper/tgrs/figures/table_continuous_false_alarm_en.tex | table_source | yes | 1391 | 6d9cc42a7d226f73d24beb73b0bef35bd63b85475fcee9a3eee501e27db257bf | yes |
 | paper/tgrs/figures/table_stead_noise_false_alarm_en.tex | table_source | yes | 802 | 138725e98370d1257b85b71c072faec1744946fccd3c69dff1aa1e4d16b57cf3 | yes |
-| paper/tgrs/figures/table_stead_noise_false_alarm_cn.tex | internal_review | yes | 793 | efc49e63a0a497da4b6feb3db1cdfb6a5514ce5f79738eec718d077b8a99a3cf | no |
-| paper/tgrs/figures/table_fdsn_continuous_false_alarm_en.tex | table_source | yes | 1064 | c3223ac8393b894377c1033a746b4651f81530cc25ee5356f477cf7866a0ce6f | yes |
-| paper/tgrs/figures/table_fdsn_continuous_false_alarm_cn.tex | internal_review | yes | 932 | d23c0f8d6fc15af2721b700283493d3a42bb3e2cfcc76e19c0fa5d40b1475f6c | no |
-| paper/tgrs/external_evidence_closure_honest_20260617.tex | manuscript_source | yes | 3396 | a13b17bce9499fd2ac856bc4fd153ebab65bb2f41d0e868163fc8f9d9f4661cc | yes |
-| paper/tgrs/external_evidence_closure_honest_20260617_cn.md | internal_review | yes | 1263 | e9f4dc8f4a9b2f3e353d2e39e806524a44cf26c381aef7397493729717d4363b | no |
+| paper/tgrs/figures/table_stead_noise_false_alarm_cn.tex | internal_review | yes | 832 | fd8719ae549db426510816fb053672c32c024391d77ed85f75f03d8dbbee2e48 | no |
+| paper/tgrs/figures/table_fdsn_continuous_false_alarm_en.tex | table_source | yes | 1098 | 9aaaa6b2df86d04d6e2038eceb17c6aacaa7c5d68acc5e633c7d7ade823fa82d | yes |
+| paper/tgrs/figures/table_fdsn_continuous_false_alarm_cn.tex | internal_review | yes | 968 | 324629934e405276ae4c94814b0954559e72270461354a99343d9878c8ce03fa | no |
+| paper/tgrs/external_evidence_closure_honest_20260617.tex | manuscript_source | yes | 3485 | 357bf65f0824de9c32c1ce298891bb4de3f01a9a4f894d7d141abc26d0b1819e | yes |
+| paper/tgrs/external_evidence_closure_honest_20260617_cn.md | internal_review | yes | 1280 | 3351c88200482f0e89397899ace41abd8fc25cd5b111655e726ecb9183a64804 | no |
 | models/checkpoints/multidomain_best.pt | checkpoint | yes | 1132970 | 4e2dfa897410b77629440602b4e5404479ede7b7459db87ab862cacd7372b51d | conditional |
 | models/checkpoints/causal_v3_epoch3.pt | checkpoint | yes | 1132489 | eab6220840f69b0428fc94bcba8338256e09e65dc81129c3a530526e009d584e | conditional |
 | src/model_impl.py | model_code | yes | 11534 | 1bc4c632b9526b1e00269c89e50b93b2e55747ccf5aa3f29e7b9d87cb70de0db | yes |
@@ -129,10 +135,12 @@ PDF version:     1.7
 | scripts/evaluation/eval_spike_false_alarm_stress.py | evaluation_code | yes | 18128 | efb3c37ebed155425f8733b858fa7c6f5d0fe7e4b1cc0f52e940d12e8ac06823 | yes |
 | scripts/evaluation/eval_artifact_gate_operating_points.py | evaluation_code | yes | 29828 | a3d83d286bbabe07753b32ba2ff7ffc33c39157ca70a70a12708a77ea91e12b7 | yes |
 | scripts/evaluation/eval_stead_noise_stationday_false_alarm.py | evaluation_code | yes | 25506 | e7a6b4f5ce6a273311f57ba674f53c62461f67e4e1a88e53b85cee92735fc8e2 | yes |
-| scripts/evaluation/eval_cwa_tsmip_external.py | evaluation_code | yes | 14631 | ff320c673e5bf0b1db4fbb28805dedceeffa425c66d47d63d5107a86b1c35d64 | yes |
+| scripts/evaluation/eval_cwa_tsmip_external.py | evaluation_code | yes | 14629 | 8f0e2496663380cdc087722a9ba9b1da345f408d2220d6387663fe31023a88ca | yes |
 | scripts/evaluation/eval_fdsn_strong_motion_stationday_false_alarm.py | evaluation_code | yes | 34856 | 5cc1f1f21c36031824a618232c455e2dc412eb73379bbdce9614140e1cb4b683 | yes |
-| scripts/evaluation/run_fdsn_strong_motion_stationday_campaign.py | evaluation_code | yes | 11210 | 947368f1cd0dbd6a1ec38fbbecf0052fa776807e1356f15a71118f454ed5c366 | yes |
+| scripts/evaluation/run_fdsn_strong_motion_stationday_campaign.py | evaluation_code | yes | 11210 | 8b61d7e236a17304ed0c10274024a7a5b51128fd10184084227122a5b19ab665 | yes |
+| scripts/evaluation/combine_fdsn_campaign_summaries.py | analysis_code | yes | 6824 | 45baeea963fa66dbdb933771e941765fc9d65dca30cddbbe0fd4a96f751a5782 | yes |
 | scripts/evaluation/eval_knet_network_association_sim.py | evaluation_code | yes | 15202 | 82a40c5375486b5279af69cd26c265e7fcda8c608dc4cd78577a9f0f4852062b | yes |
+| scripts/evaluation/eval_knet_delaunay_association_gate.py | evaluation_code | yes | 18540 | 2c440e8e722f2475eeeca87b7549fc87c30836f48756c1240989ed5e2c77a3ab | yes |
 | scripts/evaluation/build_tgrs_confidence_intervals.py | analysis_code | yes | 17997 | 7f6668469b6453703554588666d0f27104fc015cde8dc36e9db03a02847f16a1 | yes |
 | outputs/evaluation/tgrs_confidence_intervals/tgrs_confidence_intervals.md | analysis_output | yes | 15880 | eae7ec2c9904424d72d1bc011d89559991af46141d602956521a380fa147b51d | yes |
 | outputs/evaluation/confirmation_effect/knet_test_mge4_dle200_report.md | analysis_output | yes | 3677 | 15eeef3a7f4e5e512b1654681528759f37c115680ccff0b7998d2ff2fea8ffe8 | yes |
@@ -147,8 +155,10 @@ PDF version:     1.7
 | outputs/evaluation/stead_noise_stationday_false_alarm/stationday_false_alarm_rates.csv | analysis_output | yes | 1658 | 819ec1d65786105476eeb7b8bada9883cca7766d9bca8a3ed1f54dd293007df8 | yes |
 | outputs/evaluation/stead_noise_stationday_false_alarm/noise_timestamp_coincidence_summary.csv | analysis_output | yes | 2849 | a6c4b282292b23ed226b78e4264e702c7de9f1ed585a9c83ec1347f6b61d7ee1 | yes |
 | outputs/evaluation/external_labeled_accel_smoke/tgrs_external_evidence_closure_20260617_cn.md | analysis_output | yes | 7101 | 1723ca89aa05c772f789e076a664473fb7b07564ca23a07b523f66fa4d905f7c | yes |
-| outputs/evaluation/external_labeled_accel_smoke/pnwaccelerometers_theta055_confirm2_firstp_n500_snr20_max320_plocal_m3_summary.txt | analysis_output | yes | 668 | f0238a44adf18372dbb0622108754e4a20d352b9c40351cd1483fcae8d2bceb3 | yes |
-| outputs/evaluation/external_labeled_accel_smoke/pnwaccelerometers_theta055_confirm2_firstp_n500_summary.txt | analysis_output | yes | 563 | 0dc613726b63d843017e1c9baf75983350feb3242568ed7112bedfa938bebc5e | yes |
+| outputs/evaluation/external_labeled_accel_smoke/pnwaccelerometers_theta055_confirm2_firstp_n2000_snr20_max320_plocal_m3_summary.txt | analysis_output | yes | 685 | 4e55fe901981c745cca9176dd7037545f1badc7a598ae6598f49d4a10d74cace | yes |
+| outputs/evaluation/external_labeled_accel_smoke/pnwaccelerometers_theta055_confirm2_firstp_n2000_snr20_max320_plocal_m3_summary.json | analysis_output | yes | 501 | 4da678291e9cecb30e213a5bed56c33cf2d34770f381663565d9ced3dbbe4f2d | yes |
+| outputs/evaluation/external_labeled_accel_smoke/pnwaccelerometers_theta055_confirm2_firstp_n2000_max320_summary.txt | analysis_output | yes | 686 | 9e5c205eb796b05e15fa2c9995295842107a67076cee93ce450ee3cd9b78d961 | yes |
+| outputs/evaluation/external_labeled_accel_smoke/pnwaccelerometers_theta055_confirm2_firstp_n2000_max320_summary.json | analysis_output | yes | 484 | 9a5ae2e298d5ee4323ba03364c9c4c68ac685f8f6a0da00f92dfbccfeb7bae2c | yes |
 | outputs/evaluation/external_labeled_accel_smoke/pnwacc_plocal_m3_n500_snr20_theta045_summary.txt | analysis_output | yes | 634 | 10286ab4edcde061cb9206d2053caf5424188a3c12339f9ab64d4340e55c77ee | yes |
 | outputs/evaluation/external_labeled_accel_smoke/pnwacc_plocal_m3_n500_snr20_theta050_summary.txt | analysis_output | yes | 633 | 220cc7547909e7e892e7ba5e6cc3fc2e278f0b26efca65f72f7add72afb639af | yes |
 | outputs/evaluation/external_labeled_accel_smoke/pnwacc_plocal_m3_n500_snr20_theta060_summary.txt | analysis_output | yes | 633 | 663a9e2b8e9262dc2ecda216c1464ef94c26a511217552881301bd6b75affdb7 | yes |
@@ -156,11 +166,22 @@ PDF version:     1.7
 | outputs/evaluation/fdsn_strong_motion_stationday_false_alarm/stationday_false_alarm_rates.csv | analysis_output | yes | 1413 | feb3ba757a4629c84165d366a14bef726ce468bc94dcc1e12dec911fe9612fa0 | yes |
 | outputs/evaluation/fdsn_strong_motion_stationday_false_alarm/network_coincidence_summary.csv | analysis_output | yes | 1891 | 8695816871ce1a7bced791cea94c2aef6e81ad443d21fbc52c9a19cc62a5e26a | yes |
 | outputs/evaluation/fdsn_strong_motion_stationday_false_alarm/event_catalog_screen.csv | analysis_output | yes | 67 | d263072790aac1f955b012617f18e912554ccb1778fa80ecfcbfbaa4109b0362 | yes |
-| outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_report.md | analysis_output | yes | 1525 | 71c2bbe324d5ba0899e8d4f21c20e64bed7c8c4f25020f36615ad89807f39fae | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_report.md | analysis_output | yes | 1525 | c5973d4eb6425fa8fdfa6ada162e8365c58e9cc551e9f540b1ae9d79df4d31bd | yes |
 | outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_stationday_false_alarm_rates.csv | analysis_output | yes | 1410 | 26566a34c464d541f4e86371914dfbe943fc51c3917f8deb42a49349056e3828 | yes |
 | outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_network_coincidence_summary.csv | analysis_output | yes | 2215 | 00cc848a7e3dd4d1ae0b3d4179d0996cc37ff55de0d34b9ccba792680cfcee69 | yes |
 | outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_event_catalog_screen.csv | analysis_output | yes | 1 | 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_extra1h/campaign_report.md | analysis_output | yes | 1623 | e3f4b545bc3fb3efd59c16ed5c6c1472fd6c6a192f1279b803b50c5d9d00326e | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_extra1h/campaign_stationday_false_alarm_rates.csv | analysis_output | yes | 1578 | f60c2e7a65d812100d138d7e2f0fb3a7f6565b934f9c82ae84fe99500f46145d | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_extra1h/campaign_network_coincidence_summary.csv | analysis_output | yes | 2206 | 2994917f6bdfa009aac0e930a07a43200a3c96bb02fcd228608b4c83d0d53acb | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_combined/combined_campaign_report.md | analysis_output | yes | 1391 | 427aa1db73ca053cc257d60af2f085c62f98d678b3dd07610a64bafbd7051509 | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_combined/combined_stationday_false_alarm_rates.csv | analysis_output | yes | 1623 | 229640ef100af3df69814968fb6843c78fa0081d65aa9feb7b02e3008625d35b | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_combined/combined_network_coincidence_summary.csv | analysis_output | yes | 2257 | 1781afcad6174cbb696dfc8a504515758becf07de2e0e43c86a656bab6302dd1 | yes |
+| outputs/evaluation/fdsn_strong_motion_stationday_campaign_combined/combined_campaign_summary.json | analysis_output | yes | 353 | 1fdb274dac144be865a28a2e71cf4d4ff89a37bbdec279ffddb89826320c7609 | yes |
 | outputs/evaluation/network_association/knet_mge4_dle200_network_association_report.md | analysis_output | yes | 15535 | a06b24fb2530433ef5d9eead28f5d9c34289fc6049da01581138ed982706f63c | yes |
+| outputs/evaluation/delaunay_association/knet_mge4_dle200_delaunay_association_report.md | analysis_output | yes | 1651 | 1203d706463b97404fdc5959ae52774293df84d1c79aa679662093f4cb3c332c | yes |
+| outputs/evaluation/delaunay_association/knet_mge4_dle200_delaunay_association_summary.csv | analysis_output | yes | 667 | 950e9f17daf68416feee4f393656d43eff46caeaec2d81799b2a5f48ad84ef51 | yes |
+| outputs/evaluation/delaunay_association/knet_lt4_dle200_delaunay_association_report.md | analysis_output | yes | 1644 | 37d863943f550b36e1347adccfc6e7c6e7786b309dd6aad804fcba42504ff54f | yes |
+| outputs/evaluation/delaunay_association/knet_lt4_dle200_delaunay_association_summary.csv | analysis_output | yes | 702 | b4f69aaeac7ad44167e5b2ebed5dfbc80cb3f291ced949860670c9506bd63b0a | yes |
 | experiments/redpan_baseline/REDPAN_KNET_REPORT.md | baseline_output | yes | 3483 | ecbf6be55939f9898e629e604c1ed2e0d66420695be5d751eb481d3a211510e1 | conditional |
 | outputs/evaluation/prefilled_window_baselines/prefilled_window_both_n1000_mge4_zero_pn0.5_eqtp0.1_summary.json | baseline_output | yes | 1494 | e28382e632839a15926bfa341abaaa1aba73f5dc06e6e6c68070ba153fa5bcb3 | yes |
 | outputs/data_audit/strong_motion_verified_data_intake_20260615/dataset_intake_template.csv | data_expansion_output | yes | 2501 | 3ac64f7e6af51aa4d749e1cf1e1aed764fc720298838fedcee6398c1eccee40a | yes |

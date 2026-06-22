@@ -1,16 +1,16 @@
-\begin{table}[!t]
+\begin{table*}[!t]
 \centering
-\caption{Spike-injected K-NET pre-P stress test. Each non-clean scenario injects one transient into each of 608 fragments from 334 stations. FT/h is measured at $\theta=0.55$ after boundary exclusion. Inj. denotes two-packet episodes overlapping the injected chunk or following packet.}
+\caption{Spike-injected false-trigger stress test on K-NET pre-P noise. Each non-clean scenario injects one transient into each of 608 pre-P fragments before station-wise replay. FT/h denotes boundary-excluded false triggers per hour at $\theta=0.55$. Injection-related two-packet episodes overlap the injected chunk or immediately following packet. Station-day false-alert rates are reported separately in the continuous-stream replay tables.}
 \label{tab:spike_false_alarm}
-{\scriptsize\setlength{\tabcolsep}{1.35pt}\renewcommand{\arraystretch}{1.03}
-\begin{tabular}{@{}lccccc@{}}
+{\scriptsize\setlength{\tabcolsep}{1.8pt}\renewcommand{\arraystretch}{1.04}
+\begin{tabular}{@{}lrrccccc@{}}
 \toprule
-Scenario & Over & 1-pkt & 2-pkt & 3-pkt & Inj.\\
+Scenario & Seg. & Sta. & Over-thr. & 1-pkt FT/h & 2-pkt FT/h & 3-pkt FT/h & Inj.-related 2-pkt\\
 \midrule
-clean pre-P & 0.3\% & 19.54 & 2.25 & 0.00 & 0\\
-impulse 20$\times$ & 0.7\% & 45.08 & 3.01 & 0.00 & 1\\
-impulse 50$\times$ & 1.9\% & 118.72 & 18.79 & 0.00 & 24\\
-burst 20$\times$ & 6.1\% & 344.90 & 91.67 & 0.00 & 121\\
+clean pre-P noise & 608 & 334 & 0.3\% & 19.54 & 2.25 & 0.00 & 0\\
+single-sample impulse, 20$\times$ RMS & 608 & 334 & 0.7\% & 45.08 & 3.01 & 0.00 & 1\\
+single-sample impulse, 50$\times$ RMS & 608 & 334 & 1.9\% & 118.72 & 18.79 & 0.00 & 24\\
+short packet burst, 20$\times$ RMS & 608 & 334 & 6.1\% & 344.90 & 91.67 & 0.00 & 121\\
 \bottomrule
 \end{tabular}}
-\end{table}
+\end{table*}
