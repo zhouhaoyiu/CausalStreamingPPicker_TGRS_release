@@ -1,0 +1,29 @@
+% Honest external-evidence closure for TGRS revision, 2026-06-17.
+% Use as a replacement/addition to the external validation subsection.
+
+\paragraph{External labeled accelerometer benchmark}
+We evaluated the trained model on PNWAccelerometers, an independent public accelerometer dataset with labeled P-arrival annotations. The benchmark targets the model response around the labeled P arrival. A response near labeled P arrivals is counted by searching from three chunks before the labeled P-arrival chunk. This metric measures labeled onset sensitivity; full-stream first-trigger behavior is reported in the continuous replay check. Low-SNR accelerometer records reduce observable onset evidence, so we report a quality-stratified analysis and retain the unfiltered result as the low-SNR reference. On 1136 records with minimum component SNR at least 20 dB, the model reached an 84.2\% usable response near labeled P arrivals rate and an 83.7\% perfect response rate at $\theta=0.55$ with two consecutive positive chunks. The median timing gap was one chunk. A separate 500-record threshold-sensitivity audit kept the usable rate between 82.2\% and 88.0\% for $\theta$ from 0.45 to 0.60.
+
+\paragraph{Continuous-stream false-trigger check}
+We evaluated continuous behavior separately with CI strong-motion FDSN station-day replays. The check used 10 CI stations, four event-free six-hour windows plus seven event-free one-hour windows, and 308.05 station-hours of HN* strong-motion streams. At $\theta=0.55$ with two consecutive positive chunks, single-station outputs produced 107 trigger episodes over 12.84 station-days. A three-station short-window false-trigger check within 3--5 s produced zero three-station false-trigger clusters over the same event-free windows. The deployment interpretation is a station-side probability stream followed by network-level event confirmation.
+
+\begin{table}[H]
+\centering
+\caption{External evidence closure. PNWAccelerometers evaluates labeled response near labeled P arrivals on public accelerometer records. CI/FDSN replays evaluate continuous false-trigger behavior on event-free strong-motion streams.}
+\label{tab:external_evidence_closure}
+{\tgrsdensetablesetup
+\begin{tabular}{@{}p{0.29\columnwidth}p{0.64\columnwidth}@{}}
+\toprule
+Check & Evidence and interpretation \\
+\midrule
+External P labels & PNWAccelerometers SNR$\ge$20 dB, n=1136: 84.2\% usable, 83.7\% perfect; stable labeled response near labeled P arrivals. \\
+Threshold sensitivity & PNWAccelerometers 500-record audit, $\theta=0.45$--0.60: 82.2--88.0\% usable; no narrow-threshold effect. \\
+Low-SNR reference & PNWAccelerometers unfiltered random n=2000: 36.8\% usable; weak/low-SNR records remain difficult. \\
+Single-station stream & CI/FDSN 12.84 station-days: 107 episodes; single-station alarms need confirmation. \\
+Network stream & CI/FDSN three-station short-window false-trigger clusters in 3--5 s windows: 0 within event-free windows. \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Scope of the evidence}
+These experiments support a station-side probability stream with network-level event confirmation. The PNWAccelerometers result measures sensitivity near labeled P arrivals on labeled high-SNR accelerometer records. The CI/FDSN replay measures false-trigger behavior in continuous event-free streams. The unfiltered PNWAccelerometers subset reached a 36.8\% usable rate, identifying weak and low-SNR accelerometer records as the next quality tier.

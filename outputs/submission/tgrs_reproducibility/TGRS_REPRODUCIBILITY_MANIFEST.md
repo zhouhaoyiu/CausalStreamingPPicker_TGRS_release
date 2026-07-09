@@ -1,9 +1,9 @@
 # TGRS Reproducibility Manifest
 
-Generated: 2026-06-21T05:11:31
+Generated: 2026-07-10T02:55:47
 Repository: `<repository-root>`
 Public repository: `https://github.com/zhouhaoyiu/CausalStreamingPPicker_TGRS_release`
-Public release tag: `v0.5-tgrs-submission`
+Public release tag: `v0.6-tgrs-submission`
 
 ## Claim Scope
 
@@ -14,20 +14,13 @@ Public release tag: `v0.5-tgrs-submission`
 - The domestic 2021 M>=5 pilot intake currently contains templates and a strict validator; no domestic accuracy result exists until accepted records are exported by `validate_domestic_strong_motion_pilot.py`.
 - Conditional artifacts, especially checkpoints and third-party baseline outputs, require license and release review before public archiving.
 
-## Current Preflight
-
-```text
-TGRS preflight: PASS=138 WARN=1 FAIL=0
-<repository-root>/outputs/submission/tgrs_preflight_report.md
-```
-
 ## PDF Info
 
 ```text
 Creator:         TeX
 Producer:        pdfTeX-1.40.28
-CreationDate:    Sun Jun 21 05:11:11 2026 CST
-ModDate:         Sun Jun 21 05:11:11 2026 CST
+CreationDate:    Fri Jul 10 02:36:48 2026 CST
+ModDate:         Fri Jul 10 02:36:48 2026 CST
 Custom Metadata: yes
 Metadata Stream: no
 Tagged:          no
@@ -39,7 +32,7 @@ Pages:           15
 Encrypted:       no
 Page size:       612 x 792 pts (letter)
 Page rot:        0
-File size:       686205 bytes
+File size:       691869 bytes
 Optimized:       no
 PDF version:     1.7
 ```
@@ -62,8 +55,9 @@ PDF version:     1.7
 | Run K-NET M>=4 Delaunay-neighbor association gate | <zhy-python> scripts/evaluation/eval_knet_delaunay_association_gate.py --details outputs/evaluation/confirmation_effect/knet_test_mge4_dle200_details.csv --metadata data/knet_accel/metadata.csv --output-dir outputs/evaluation/delaunay_association --tag knet_mge4_dle200 --dataset-label 'K-NET test split, M >= 4, source distance <= 200 km' |
 | Run K-NET M<4 Delaunay-neighbor association gate | <zhy-python> scripts/evaluation/eval_knet_delaunay_association_gate.py --details outputs/evaluation/confirmation_effect/knet_test_lt4_dle200_details.csv --metadata data/knet_accel/metadata.csv --output-dir outputs/evaluation/delaunay_association --tag knet_lt4_dle200 --dataset-label 'K-NET test split, M < 4, source distance <= 200 km' |
 | Regenerate detailed TGRS result tables | <zhy-python> paper/tgrs/revision/build_detailed_result_tables.py |
-| Run TGRS preflight | <zhy-python> paper/tgrs/preflight_tgrs_submission.py |
+| Build TGRS main LaTeX source archive | <zhy-python> paper/tgrs/build_tgrs_main_latex.py |
 | Build TGRS supplement release archive | <zhy-python> paper/tgrs/build_tgrs_supplement_release.py |
+| Run TGRS preflight after creating the release tag | <zhy-python> paper/tgrs/preflight_tgrs_submission.py |
 | Validate domestic 2021 M>=5 strong-motion pilot intake | <zhy-python> scripts/data/validate_domestic_strong_motion_pilot.py |
 | Build confidence intervals | <zhy-python> scripts/evaluation/build_tgrs_confidence_intervals.py |
 
@@ -71,21 +65,22 @@ PDF version:     1.7
 
 | path | role | exists | bytes | sha256 | public |
 | --- | --- | --- | --- | --- | --- |
-| paper/tgrs/tgrs_causal_streaming_picker.pdf | manuscript | yes | 686205 | 29f69067f8f0ec5988baaca6e8adc71ad80b74c9ebf6ce8a26a5cb49645f3e93 | yes |
-| paper/tgrs/tgrs_causal_streaming_picker.tex | manuscript_source | yes | 62715 | 2db9d0864e97c84e47711e6b4275606555df26a9ebc9bd6b650f74a35e796333 | yes |
-| paper/tgrs/tgrs_causal_streaming_picker_cn.pdf | internal_review | yes | 727226 | 36a64248405594074c313a62c4b08638a07e28457f82276a1b9e9299c8b48e38 | no |
+| paper/tgrs/tgrs_causal_streaming_picker.pdf | manuscript | yes | 691869 | 502f26e0d56324ab4b39ee61c673c1f2c0fd65e13e8cbf96b9703c17a42763ee | yes |
+| paper/tgrs/tgrs_causal_streaming_picker.tex | manuscript_source | yes | 62783 | 5567eaa6a1efc864246f14fef679d4491432de440c911a51a2b363d4e38f7db5 | yes |
+| paper/tgrs/tgrs_causal_streaming_picker.bbl | manuscript_source | yes | 19063 | 87c1a8f52bee2b16792a9b8c7d72ea76fdea8586023aab9da2b42afd28143841 | yes |
+| paper/tgrs/tgrs_causal_streaming_picker_cn.pdf | internal_review | yes | 729696 | 6359c669306a1abe554fef7724813256d4af9e81875fab6a13b9f414ddc66cdf | no |
 | paper/tgrs/references.bib | bibliography | yes | 29690 | 8003a79c8c28201334f78df4a61c318bb4efa07f98ba72a78576dc35299b35ef | yes |
 | paper/tgrs/cover_letter_tgrs.md | submission | yes | 4506 | 77929ed7fe9ad9d9d7d16fddc0accd5abe25220a3b02fd60a62083e66cf38417 | yes |
 | paper/tgrs/cover_letter_tgrs.txt | submission | yes | 4419 | 713fe09e441c03d8a323d407497f8c7cbfe6f1ed32c05dbb2874da17572ba767 | yes |
-| paper/tgrs/submission_portal_fields_tgrs.md | submission | yes | 4544 | 74618be3c061f58a82e54ef46c924e8143a5d67f8b8b890b157bfc5809f3fabf | yes |
+| paper/tgrs/submission_portal_fields_tgrs.md | submission | yes | 4781 | f1f3640e313258a3f4fddb9e1f04e07fd67532929875cda342d5bdce6724afdb | yes |
 | paper/tgrs/reproducibility/README.md | release_metadata | yes | 639 | 8d47a2d8129ee77f06ad6da5b01d69a5c7b7d9727bf77c86a250aa2de4d52b7d | yes |
 | paper/tgrs/reproducibility/LICENSE | release_metadata | yes | 1067 | a083074bc5725255331d5cf80691ca44145da891af2da54fb4e5eb50e006dfbc | yes |
 | paper/tgrs/reproducibility/MODEL_LICENSE | release_metadata | yes | 494 | eec62a1786a92f6307e71432f1d9be659caa9cde791c133dcda760a57a09321c | yes |
-| paper/tgrs/reproducibility/CITATION.cff | release_metadata | yes | 938 | 1911a837c5b1e5eef0b94a00b885fcedff922a9551f81315d5895a0b3db42900 | yes |
-| paper/tgrs/preflight_tgrs_submission.py | quality_gate | yes | 29952 | be60d4cf8a42aabf84dd6865c9fb5505d14ceff964805488b1c7c0df9b57fc50 | yes |
-| paper/tgrs/build_tgrs_supplement_release.py | release_packaging | yes | 6520 | 27a6f753d75d94811cd67b94ccc4ec19171555c411d7902b3dd9cca350995243 | yes |
-| outputs/submission/tgrs_preflight_report.md | quality_gate_output | yes | 12353 | 56a24070264f6e64e163c917538cb953b42f5b83ab6b7c7112578130176694c5 | yes |
-| outputs/submission/tgrs_supplement_release/CausalStreamingPPicker_TGRS_supplement.zip | release_archive | yes | 10923792 | a9de448c75f5834d164402a07fc2a20a140bd5b33165a9dfe7faedcbd9cc1e37 | yes |
+| paper/tgrs/reproducibility/CITATION.cff | release_metadata | yes | 1194 | 7e5b8f93d2ccfb88900e420f399a3c28a42528431ac50993403589c7ddbdbe24 | yes |
+| paper/tgrs/preflight_tgrs_submission.py | quality_gate | yes | 35373 | d140c99ee54480814913714342b8852287fffc2c6ab2536df07c892c6796562f | yes |
+| paper/tgrs/build_tgrs_main_latex.py | release_packaging | yes | 3133 | db80e9a347e01f6fa13ff5d8b3bc3b1dac37f13a300fe702f0f7f333cb3dc67a | yes |
+| paper/tgrs/build_tgrs_supplement_release.py | release_packaging | yes | 7317 | f0a8dea853d6bdf6509f19909a21daf4ca114d2fab9cebf6e6f91acc0f832949 | yes |
+| outputs/submission/tgrs_main_latex/tgrs_causal_streaming_picker_latex.zip | submission | yes | 424507 | 07edadd4f29ac6d5b1a1fcf0aa98f488ab187b45903d879c335e773d79761642 | yes |
 | paper/tgrs/revision/eqanomalynet_style_lessons.md | internal_review | yes | 14877 | 5062b0b2b9ccdfe3074c1477b1e65f98c8a5a7f838563bf60b072bd749e84bd6 | no |
 | paper/tgrs/revision/manuscript_evidence_coverage_audit.md | internal_review | yes | 7973 | 0a14faad50b2604b3ba3371bc853c4f3daf35af0325239b1defa5db7cd738590 | no |
 | paper/tgrs/revision/plot_tgrs_figures.py | figure_generation | yes | 55392 | aa04d905270daf6e01f1c9eeca515f08250f4bbb4df294ae6c59e80ed8c06f29 | yes |
@@ -123,10 +118,17 @@ PDF version:     1.7
 | paper/tgrs/figures/table_fdsn_continuous_false_alarm_cn.tex | internal_review | yes | 968 | 324629934e405276ae4c94814b0954559e72270461354a99343d9878c8ce03fa | no |
 | paper/tgrs/external_evidence_closure_honest_20260617.tex | manuscript_source | yes | 3485 | 357bf65f0824de9c32c1ce298891bb4de3f01a9a4f894d7d141abc26d0b1819e | yes |
 | paper/tgrs/external_evidence_closure_honest_20260617_cn.md | internal_review | yes | 1280 | 3351c88200482f0e89397899ace41abd8fc25cd5b111655e726ecb9183a64804 | no |
+| scripts/demo/realtime_service.py | streaming_demo | yes | 18050 | 81d262f27d817492953ca5e883ab7d41df0f74357681a3e5f88530a5c8423d0b | yes |
+| scripts/demo/realtime_stream_client.py | streaming_demo | yes | 5116 | bd8707e45eb89b866d1fe5a5bc8e7163c2f8a2e59b0ffb0e3440be43aca4e0ed | yes |
+| scripts/demo/realtime_seedlink_client.py | streaming_demo | yes | 6133 | 3d710f3224567e28e28cdd99fcccb6c2dd0f0d4fd3ac4471e4e387fe89cfb692 | yes |
+| docs/realtime_service_usage.md | documentation | yes | 7505 | 1e202a7b2f166e9aed6450c54edd7908e87ea6e55c653bb0d85b0107bf372ff6 | yes |
+| docs/realtime_stream_demo.html | streaming_demo | yes | 18168 | b68a061123607d2bb2b5a206c2aacccedfbbd81498a2b2d0cc09724ef0c524d4 | yes |
+| docs/device_accel_stream_demo.html | streaming_demo | yes | 26040 | e056f42c03741f51dd3d3e396f705acdad344663404e3a7cd87bb99474bc54e5 | yes |
 | models/checkpoints/multidomain_best.pt | checkpoint | yes | 1132970 | 4e2dfa897410b77629440602b4e5404479ede7b7459db87ab862cacd7372b51d | conditional |
 | models/checkpoints/causal_v3_epoch3.pt | checkpoint | yes | 1132489 | eab6220840f69b0428fc94bcba8338256e09e65dc81129c3a530526e009d584e | conditional |
 | src/model_impl.py | model_code | yes | 11534 | 1bc4c632b9526b1e00269c89e50b93b2e55747ccf5aa3f29e7b9d87cb70de0db | yes |
 | src/model.py | model_code | yes | 184 | f0dc6a04b603f0ce23e4ef1d9124411cce1c3508d6a379d73ebefc619eec046c | yes |
+| src/model_v3.py | model_code | yes | 406 | db26f25c47b0ab2123e38ab23b08a30a1b350c78b1bf4a5d2c7e06d4b3bd5860 | yes |
 | scripts/training/mpstrain_multidomain.py | training_code | yes | 37503 | eb8601d9b427e4fee0264c5fb69619d1c52d9ba690e9a9f003e9c74c26cde1ae | yes |
 | scripts/evaluation/eval_multidomain_test.py | evaluation_code | yes | 23355 | b1782e9918a5d68450e5038d7bcaee21d4add0043f5b4b554b648d565fe97dd9 | yes |
 | scripts/evaluation/eval_prefilled_window_baselines.py | evaluation_code | yes | 14481 | 2c97a4eb421da390e47d3726f2646c89bb3938bd9278813b145b4bdcfa8c70ec | yes |
@@ -204,4 +206,4 @@ _None among the manifest-tracked artifacts._
 
 ## Release Freeze Point
 
-For submission, use the supplement archive SHA256 and public repository tag `v0.5-tgrs-submission` as the release freeze points.
+For submission, use the supplement archive's external `.sha256` file and public repository tag `v0.6-tgrs-submission` as the release freeze points.

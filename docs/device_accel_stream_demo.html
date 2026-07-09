@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>本机加速度流式推理</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #fff;
+      --ink: #16202a;
+      --muted: #667085;
+      --line: #d9dee7;
+      --blue: #2563eb;
+      --green: #16a34a;
+      --red: #dc2626;
+      --amber: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+    h1 { margin: 0; font-size: 22px; letter-spacing: 0; }
+    main { padding: 18px 24px 24px; }
+    .status {
+      min-width: 112px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-align: center;
+      color: var(--muted);
+      background: #fff;
+    }
+    .status.ok { color: var(--green); border-color: #86efac; }
+    .status.bad { color: var(--red); border-color: #fca5a5; }
+    .toolbar {
+      display: grid;
+      grid-template-columns: 2fr 1.1fr .95fr .8fr auto auto auto auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    input, select, button {
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+    input, select { width: 100%; padding: 0 10px; }
+    button { min-width: 82px; padding: 0 12px; cursor: pointer; font-weight: 700; }
+    button.primary { border-color: var(--blue); background: var(--blue); color: #fff; }
+    button.danger { border-color: #fecaca; color: var(--red); }
+    .notice {
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      color: #9a3412;
+      background: #fff7ed;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 16px;
+    }
+    section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .section-head, .plot-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 800;
+    }
+    .section-head span, .plot-title span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+    .metric {
+      min-width: 0;
+      padding: 12px 14px;
+      border-right: 1px solid var(--line);
+    }
+    .metric:last-child { border-right: 0; }
+    .metric b { display: block; min-height: 31px; font-size: 25px; line-height: 1.15; }
+    .metric span { color: var(--muted); font-size: 12px; font-weight: 700; }
+    canvas { display: block; width: 100%; background: #fbfcfe; }
+    #waveform { height: 390px; border-bottom: 1px solid var(--line); }
+    #probChart { height: 230px; }
+    .log { height: 606px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      white-space: nowrap;
+    }
+    th:first-child, td:first-child { text-align: left; }
+    th { position: sticky; top: 0; background: #fff; color: var(--muted); font-size: 12px; }
+    tr.packet-row td {
+      border-bottom: 4px solid #fff;
+      background: #f8fafc;
+      font-weight: 650;
+    }
+    tr.packet-trigger td {
+      background: #fef2f2;
+      color: #991b1b;
+      font-weight: 850;
+    }
+    tr.packet-trigger td:first-child { border-left: 5px solid var(--red); }
+    tr.packet-candidate td {
+      background: #fff7ed;
+      color: #9a3412;
+      font-weight: 750;
+    }
+    tr.packet-candidate td:first-child { border-left: 5px solid #f59e0b; }
+    tr.packet-boundary td { color: #64748b; background: #f1f5f9; }
+    .packet-badge, .prob-badge, .state-badge {
+      display: inline-block;
+      min-width: 46px;
+      padding: 4px 7px;
+      border-radius: 8px;
+      text-align: center;
+      background: #e2e8f0;
+    }
+    .packet-trigger .packet-badge,
+    .packet-trigger .prob-badge,
+    .packet-trigger .state-badge {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .packet-candidate .packet-badge,
+    .packet-candidate .prob-badge,
+    .packet-candidate .state-badge {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+    .trigger { color: var(--red); font-weight: 800; }
+    .idle { color: var(--muted); }
+    pre {
+      margin: 0;
+      min-height: 58px;
+      max-height: 92px;
+      overflow: auto;
+      padding: 12px 14px;
+      border-top: 1px solid var(--line);
+      background: #fbfcfe;
+      color: #344054;
+      font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    @media (max-width: 940px) {
+      .toolbar, .grid { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>本机加速度流式推理</h1>
+    <div id="status" class="status">未连接</div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <label>服务地址
+        <input id="baseUrl" value="">
+      </label>
+      <label>台站
+        <input id="stationId" value="DEVICE_ACCEL">
+      </label>
+      <label>输入
+        <select id="inputMode">
+          <option value="sim">模拟加速度</option>
+          <option value="sensor">真实传感器</option>
+        </select>
+      </label>
+      <label>比例
+        <input id="scaleFactor" value="1">
+      </label>
+      <button id="healthBtn">检查</button>
+      <button id="permitBtn">授权</button>
+      <button id="resetBtn">重置</button>
+      <button id="runBtn" class="primary">开始</button>
+    </div>
+
+    <div class="notice" id="notice">
+      默认使用模拟加速度，Mac 上也能跑完整链路。橙色表示 P >= 0.55 的单包候选，连续两包成立后红色确认触发；每 160 秒重置状态后的前两包不参与确认。手机传感器仅用于接口联调。
+    </div>
+
+    <div class="grid">
+      <section>
+        <div class="section-head">
+          <div>设备加速度到当前</div>
+          <span id="timeRange">0.0 s</span>
+        </div>
+        <div class="metrics">
+          <div class="metric"><b id="elapsed">0.0</b><span>秒</span></div>
+          <div class="metric"><b id="sampleRate">0</b><span>Hz</span></div>
+          <div class="metric"><b id="probNow">0.000</b><span>P 概率</span></div>
+          <div class="metric"><b id="triggerTime">-</b><span>确认触发包</span></div>
+        </div>
+        <div class="plot-title">
+          <div>三轴加速度</div>
+          <span>x/y/z 设备坐标</span>
+        </div>
+        <canvas id="waveform" width="1180" height="390"></canvas>
+        <div class="plot-title">
+          <div>P 概率</div>
+          <span>阈值 0.55 · 连续 2 包确认</span>
+        </div>
+        <canvas id="probChart" width="1180" height="230"></canvas>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>推理日志</div>
+          <span id="lastPacket">等待采样</span>
+        </div>
+        <div class="log">
+          <table>
+            <thead><tr><th>包</th><th>时间</th><th>概率</th><th>状态</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <pre id="raw">{}</pre>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const PACKET_SEC = 0.5;
+    const THRESHOLD = 0.55;
+    const MAX_HISTORY = 30000; // ponytail: cap browser drawing at about 5 min; service state remains continuous.
+    const state = {
+      running: false,
+      mode: "sim",
+      startMs: 0,
+      lastEventMs: 0,
+      sendTimer: null,
+      simTimer: null,
+      noSensorTimer: null,
+      simPacket: 0,
+      pending: [],
+      wave: [[], [], []],
+      rows: [],
+      packetBounds: [],
+      firstTriggerTime: null,
+      firstTriggerPacket: null,
+      lastProb: 0,
+      estimatedHz: 0,
+      gravity: null
+    };
+
+    const el = id => document.getElementById(id);
+    const statusEl = el("status");
+    const waveCanvas = el("waveform");
+    const probCanvas = el("probChart");
+    const waveCtx = waveCanvas.getContext("2d");
+    const probCtx = probCanvas.getContext("2d");
+
+    const defaultBaseUrl = location.protocol.startsWith("http") ? location.origin : "http://127.0.0.1:8765";
+    el("baseUrl").value = defaultBaseUrl;
+
+    function service(path) {
+      return el("baseUrl").value.replace(/\/$/, "") + path;
+    }
+
+    function setStatus(text, cls) {
+      statusEl.textContent = text;
+      statusEl.className = "status " + (cls || "");
+    }
+
+    async function checkService() {
+      const r = await fetch(service("/health"));
+      if (!r.ok) throw new Error("health " + r.status);
+      const body = await r.json();
+      el("raw").textContent = JSON.stringify(body, null, 2);
+      setStatus("服务正常", "ok");
+    }
+
+    async function requestPermission() {
+      if (!window.isSecureContext) {
+        setStatus("需要 HTTPS", "bad");
+        el("notice").textContent = "真实传感器需要 HTTPS 安全页面。当前是 HTTP 局域网页面，浏览器会隐藏 DeviceMotion。请用 HTTPS 地址打开，或先用“模拟加速度”测试接口。";
+        return false;
+      }
+      if (typeof DeviceMotionEvent === "undefined") {
+        setStatus("无传感器", "bad");
+        el("notice").textContent = "当前浏览器没有 DeviceMotionEvent。若这是手机浏览器，通常是因为页面不是 HTTPS，或浏览器关闭了运动传感器权限。";
+        return false;
+      }
+      if (typeof DeviceMotionEvent.requestPermission === "function") {
+        const result = await DeviceMotionEvent.requestPermission();
+        if (result !== "granted") {
+          setStatus("未授权", "bad");
+          return false;
+        }
+      }
+      setStatus("已授权", "ok");
+      return true;
+    }
+
+    async function reset() {
+      stop();
+      const station = encodeURIComponent(el("stationId").value || "DEVICE_ACCEL");
+      const r = await fetch(service("/reset?station_id=" + station), { method: "POST" });
+      if (!r.ok) throw new Error("reset " + r.status);
+      state.pending = [];
+      state.wave = [[], [], []];
+      state.rows = [];
+      state.packetBounds = [];
+      state.firstTriggerTime = null;
+      state.firstTriggerPacket = null;
+      state.lastProb = 0;
+      state.estimatedHz = 0;
+      state.gravity = null;
+      state.simPacket = 0;
+      state.startMs = 0;
+      state.lastEventMs = 0;
+      el("raw").textContent = JSON.stringify(await r.json(), null, 2);
+      setStatus("已重置", "ok");
+      render();
+    }
+
+    async function start() {
+      if (state.running) return stop();
+      state.mode = el("inputMode").value;
+      if (state.mode === "sensor") {
+        const ok = await requestPermission();
+        if (!ok) return;
+      }
+      await reset();
+      state.mode = el("inputMode").value;
+      state.running = true;
+      state.startMs = performance.now();
+      state.lastEventMs = state.startMs;
+      if (state.mode === "sensor") {
+        window.addEventListener("devicemotion", onMotion);
+        state.sendTimer = setInterval(() => {
+          sendPacket().catch(err => {
+            stop();
+            setStatus("推理失败", "bad");
+            el("raw").textContent = String(err);
+          });
+        }, PACKET_SEC * 1000);
+        state.noSensorTimer = setTimeout(() => {
+          if (state.running && state.wave[0].length === 0) {
+            setStatus("无传感器数据", "bad");
+            el("notice").textContent = "没有收到 DeviceMotion 事件。请确认手机浏览器已允许运动传感器权限；iPhone 还要在 Safari 设置里打开 Motion & Orientation Access。";
+          }
+        }, 2200);
+      } else {
+        state.estimatedHz = 100;
+        state.simTimer = setInterval(() => {
+          sendSyntheticPacket().catch(err => {
+            stop();
+            setStatus("推理失败", "bad");
+            el("raw").textContent = String(err);
+          });
+        }, PACKET_SEC * 1000);
+        await sendSyntheticPacket();
+      }
+      el("runBtn").textContent = "停止";
+      el("runBtn").classList.add("danger");
+      setStatus(state.mode === "sensor" ? "采集中" : "模拟中", "ok");
+    }
+
+    function stop() {
+      if (!state.running) return;
+      state.running = false;
+      window.removeEventListener("devicemotion", onMotion);
+      clearInterval(state.sendTimer);
+      clearInterval(state.simTimer);
+      clearTimeout(state.noSensorTimer);
+      state.sendTimer = null;
+      state.simTimer = null;
+      state.noSensorTimer = null;
+      el("runBtn").textContent = "开始";
+      el("runBtn").classList.remove("danger");
+      setStatus("已停止", "");
+    }
+
+    async function sendSyntheticPacket() {
+      if (!state.running) return;
+      const axes = syntheticPacket(state.simPacket++);
+      const start = appendAxes(axes);
+      state.estimatedHz = 100;
+      await postAxes(axes, 100, start, state.wave[0].length);
+      render();
+    }
+
+    function syntheticPacket(packetNo) {
+      const x = [], y = [], z = [];
+      const center = 72 * 50;
+      for (let i = 0; i < 50; i++) {
+        const t = packetNo * 50 + i;
+        const onset = 1 / (1 + Math.exp(-(t - center) / 22));
+        const decay = Math.exp(-Math.max(0, t - center) / 1300);
+        const pulse = onset * decay;
+        const base = Math.sin(t * 0.11) * 0.012 + Math.sin(t * 0.017) * 0.009;
+        z.push(base + pulse * Math.sin(t * 0.58) * 0.22);
+        y.push(base * 0.7 + pulse * Math.sin(t * 0.51 + 0.9) * 0.15);
+        x.push(-base * 0.5 + pulse * Math.sin(t * 0.47 + 1.7) * 0.12);
+      }
+      return [x, y, z];
+    }
+
+    function appendAxes(axes) {
+      const start = state.wave[0].length;
+      for (let c = 0; c < 3; c++) {
+        state.wave[c].push(...axes[c]);
+        if (state.wave[c].length > MAX_HISTORY) state.wave[c] = state.wave[c].slice(-MAX_HISTORY);
+      }
+      return start;
+    }
+
+    async function postAxes(axes, samplingRateHz, sampleStart, sampleEnd) {
+      const payload = {
+        station_id: el("stationId").value || "DEVICE_ACCEL",
+        sampling_rate_hz: samplingRateHz,
+        component_order: "ZNE",
+        scale_factor: Number(el("scaleFactor").value || 1),
+        data: [axes[2], axes[1], axes[0]]
+      };
+      const r = await fetch(service("/predict"), {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!r.ok) throw new Error("predict " + r.status);
+      const body = await r.json();
+      el("raw").textContent = JSON.stringify(body, null, 2);
+      for (const row of body.results || []) {
+        const candidate = row.candidate ?? row.p_probability >= THRESHOLD;
+        const confirmed = Boolean(row.confirmed);
+        const shown = {...row, candidate_trigger: candidate, confirmed_trigger: confirmed};
+        state.rows.push(shown);
+        state.packetBounds.push({
+          packet_idx: row.packet_idx,
+          start: sampleStart,
+          end: sampleEnd,
+          candidate_trigger: candidate,
+          boundary_excluded: Boolean(row.boundary_excluded),
+          confirmed_trigger: confirmed
+        });
+        state.lastProb = row.p_probability;
+        if (confirmed && state.firstTriggerTime === null) {
+          state.firstTriggerTime = row.time_sec;
+          state.firstTriggerPacket = row.packet_idx;
+        }
+      }
+    }
+
+    function onMotion(event) {
+      const sampleAxes = motionAxes(event);
+      if (!sampleAxes) return;
+      const now = performance.now();
+      const t = (now - state.startMs) / 1000;
+      const sample = { t, index: state.wave[0].length, x: sampleAxes[0], y: sampleAxes[1], z: sampleAxes[2] };
+      state.pending.push(sample);
+      state.wave[0].push(sample.x);
+      state.wave[1].push(sample.y);
+      state.wave[2].push(sample.z);
+      for (let c = 0; c < 3; c++) {
+        if (state.wave[c].length > MAX_HISTORY) state.wave[c] = state.wave[c].slice(-MAX_HISTORY);
+      }
+      const dt = Math.max((now - state.lastEventMs) / 1000, 0.001);
+      state.estimatedHz = state.estimatedHz * 0.9 + (1 / dt) * 0.1;
+      state.lastEventMs = now;
+      render();
+    }
+
+    function motionAxes(event) {
+      const a = event.acceleration;
+      if (a && Number.isFinite(a.x) && Number.isFinite(a.y) && Number.isFinite(a.z)) {
+        return [a.x, a.y, a.z];
+      }
+      const g = event.accelerationIncludingGravity;
+      if (!g || !Number.isFinite(g.x) || !Number.isFinite(g.y) || !Number.isFinite(g.z)) return null;
+      const raw = [g.x, g.y, g.z];
+      if (!state.gravity) state.gravity = raw.slice();
+      const alpha = 0.96;
+      for (let i = 0; i < 3; i++) state.gravity[i] = alpha * state.gravity[i] + (1 - alpha) * raw[i];
+      return raw.map((v, i) => v - state.gravity[i]);
+    }
+
+    async function sendPacket() {
+      if (!state.running || state.pending.length < 3) return;
+      const batch = state.pending.splice(0);
+      const duration = Math.max(batch[batch.length - 1].t - batch[0].t, PACKET_SEC);
+      const sr = Math.max(1, batch.length / duration);
+      await postAxes(
+        [batch.map(v => v.x), batch.map(v => v.y), batch.map(v => v.z)],
+        sr,
+        batch[0].index,
+        batch[batch.length - 1].index + 1
+      );
+      render();
+    }
+
+    function render() {
+      const elapsed = state.startMs ? (performance.now() - state.startMs) / 1000 : 0;
+      el("elapsed").textContent = elapsed.toFixed(1);
+      el("sampleRate").textContent = state.estimatedHz ? state.estimatedHz.toFixed(0) : "0";
+      el("probNow").textContent = state.lastProb.toFixed(3);
+      el("triggerTime").textContent = state.firstTriggerPacket === null ? "-" : `#${state.firstTriggerPacket}`;
+      el("timeRange").textContent = `0.0 - ${elapsed.toFixed(1)} s`;
+      const last = state.rows[state.rows.length - 1];
+      el("lastPacket").textContent = last ? `最新 ${last.time_sec.toFixed(1)} s` : "等待采样";
+      el("rows").innerHTML = state.rows.slice(-80).reverse().map(row => {
+        const cls = row.confirmed_trigger ? "packet-trigger" : row.boundary_excluded ? "packet-boundary" : row.candidate_trigger ? "packet-candidate" : "packet-row";
+        const label = row.trigger ? "确认触发" : row.confirmed_trigger ? "已确认" : row.boundary_excluded ? "边界忽略" : row.candidate_trigger ? "单包候选" : "未触发";
+        return `<tr class="${cls}"><td><span class="packet-badge">#${row.packet_idx}</span></td><td>${row.time_sec.toFixed(1)}</td><td><span class="prob-badge">${row.p_probability.toFixed(3)}</span></td><td><span class="state-badge">${label}</span></td></tr>`;
+      }).join("");
+      drawWave();
+      drawProb();
+    }
+
+    function drawWave() {
+      const w = waveCanvas.width, h = waveCanvas.height;
+      const labels = ["x", "y", "z"];
+      const colors = ["#2563eb", "#16a34a", "#dc2626"];
+      waveCtx.clearRect(0, 0, w, h);
+      waveCtx.fillStyle = "#fbfcfe";
+      waveCtx.fillRect(0, 0, w, h);
+      for (let c = 0; c < 3; c++) {
+        const laneH = h / 3;
+        const top = c * laneH;
+        const mid = top + laneH / 2;
+        waveCtx.fillStyle = c % 2 ? "#ffffff" : "#f8fafc";
+        waveCtx.fillRect(0, top, w, laneH);
+        waveCtx.strokeStyle = "#d9dee7";
+        waveCtx.lineWidth = 1;
+        waveCtx.beginPath();
+        waveCtx.moveTo(0, mid);
+        waveCtx.lineTo(w, mid);
+        waveCtx.stroke();
+      }
+      drawPacketBands(waveCtx, w, h, state.wave[0].length);
+      for (let c = 0; c < 3; c++) {
+        const laneH = h / 3;
+        const top = c * laneH;
+        const mid = top + laneH / 2;
+        waveCtx.fillStyle = colors[c];
+        waveCtx.font = "bold 18px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+        waveCtx.fillText(labels[c], 16, mid - 14);
+        const data = state.wave[c];
+        if (data.length < 2) continue;
+        let peak = 0.001;
+        for (const v of data) peak = Math.max(peak, Math.abs(v));
+        waveCtx.strokeStyle = colors[c];
+        waveCtx.lineWidth = 2.5;
+        waveCtx.beginPath();
+        data.forEach((v, i) => {
+          const x = 58 + (i / Math.max(data.length - 1, 1)) * (w - 78);
+          const y = mid - (v / peak) * laneH * 0.38;
+          if (i === 0) waveCtx.moveTo(x, y);
+          else waveCtx.lineTo(x, y);
+        });
+        waveCtx.stroke();
+      }
+      drawTriggerLine(waveCtx, w, h, state.wave[0].length, state.estimatedHz || 100);
+    }
+
+    function drawPacketBands(target, w, h, sampleCount) {
+      if (sampleCount < 2) return;
+      for (const bound of state.packetBounds) {
+        const x0 = sampleToX(bound.start, sampleCount, w);
+        const x1 = Math.max(sampleToX(bound.end, sampleCount, w), x0 + 2);
+        target.fillStyle = bound.confirmed_trigger
+          ? "rgba(220, 38, 38, 0.16)"
+          : bound.candidate_trigger && !bound.boundary_excluded
+            ? "rgba(245, 158, 11, 0.14)"
+            : (bound.packet_idx % 2 ? "rgba(37, 99, 235, 0.045)" : "rgba(15, 23, 42, 0.035)");
+        target.fillRect(x0, 0, x1 - x0, h);
+        target.strokeStyle = bound.confirmed_trigger
+          ? "rgba(220, 38, 38, 0.75)"
+          : bound.candidate_trigger && !bound.boundary_excluded
+            ? "rgba(217, 119, 6, 0.72)"
+            : "rgba(100, 116, 139, 0.28)";
+        target.lineWidth = bound.confirmed_trigger ? 2 : 1;
+        target.beginPath();
+        target.moveTo(x0, 0);
+        target.lineTo(x0, h);
+        target.stroke();
+        if (bound.confirmed_trigger || bound.candidate_trigger || x1 - x0 > 22) {
+          target.fillStyle = bound.confirmed_trigger ? "#dc2626" : bound.candidate_trigger ? "#d97706" : "#64748b";
+          target.font = "bold 12px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+          target.fillText(`#${bound.packet_idx}`, x0 + 4, h - 10);
+        }
+      }
+    }
+
+    function sampleToX(index, sampleCount, w) {
+      return 58 + (index / Math.max(sampleCount - 1, 1)) * (w - 78);
+    }
+
+    function drawProb() {
+      const w = probCanvas.width, h = probCanvas.height;
+      probCtx.clearRect(0, 0, w, h);
+      probCtx.fillStyle = "#fbfcfe";
+      probCtx.fillRect(0, 0, w, h);
+      const yThr = h - THRESHOLD * (h - 30) - 15;
+      probCtx.strokeStyle = "#d97706";
+      probCtx.setLineDash([8, 5]);
+      probCtx.beginPath();
+      probCtx.moveTo(0, yThr);
+      probCtx.lineTo(w, yThr);
+      probCtx.stroke();
+      probCtx.setLineDash([]);
+      probCtx.fillStyle = "#d97706";
+      probCtx.font = "bold 14px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+      probCtx.fillText("0.55", 12, yThr - 8);
+      const rows = state.rows;
+      if (rows.length < 2) return;
+      probCtx.strokeStyle = "#2563eb";
+      probCtx.lineWidth = 4;
+      probCtx.beginPath();
+      rows.forEach((row, i) => {
+        const x = 58 + (i / Math.max(rows.length - 1, 1)) * (w - 80);
+        const y = h - Math.max(0, Math.min(1, row.p_probability)) * (h - 30) - 15;
+        if (i === 0) probCtx.moveTo(x, y);
+        else probCtx.lineTo(x, y);
+      });
+      probCtx.stroke();
+      rows.forEach((row, i) => {
+        const x = 58 + (i / Math.max(rows.length - 1, 1)) * (w - 80);
+        const y = h - Math.max(0, Math.min(1, row.p_probability)) * (h - 30) - 15;
+        probCtx.fillStyle = row.confirmed_trigger ? "#dc2626" : row.candidate_trigger ? "#d97706" : "#2563eb";
+        probCtx.beginPath();
+        probCtx.arc(x, y, row.confirmed_trigger ? 6 : row.candidate_trigger ? 5 : 4, 0, Math.PI * 2);
+        probCtx.fill();
+        if (row.trigger || i === rows.length - 1) {
+          probCtx.fillStyle = row.trigger ? "#dc2626" : "#334155";
+          probCtx.font = "bold 13px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+          probCtx.fillText(`#${row.packet_idx}`, Math.min(x + 7, w - 38), Math.max(y - 8, 14));
+        }
+      });
+      drawTriggerLine(probCtx, w, h, rows.length, 2);
+    }
+
+    function drawTriggerLine(target, w, h, length, unitsPerSecond) {
+      if (state.firstTriggerTime === null || length < 2) return;
+      const x = 58 + ((state.firstTriggerTime * unitsPerSecond) / Math.max(length - 1, 1)) * (w - 80);
+      if (x < 58 || x > w - 20) return;
+      target.strokeStyle = "#dc2626";
+      target.lineWidth = 3;
+      target.setLineDash([8, 5]);
+      target.beginPath();
+      target.moveTo(x, 0);
+      target.lineTo(x, h);
+      target.stroke();
+      target.setLineDash([]);
+      target.fillStyle = "#dc2626";
+      target.font = "bold 15px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+      target.fillText(`触发包 #${state.firstTriggerPacket} / ${state.firstTriggerTime.toFixed(1)} s`, Math.min(x + 8, w - 176), 24);
+    }
+
+    el("healthBtn").onclick = () => checkService().catch(err => { setStatus("连接失败", "bad"); el("raw").textContent = String(err); });
+    el("permitBtn").onclick = () => requestPermission().catch(err => { setStatus("授权失败", "bad"); el("raw").textContent = String(err); });
+    el("resetBtn").onclick = () => reset().catch(err => { setStatus("重置失败", "bad"); el("raw").textContent = String(err); });
+    el("runBtn").onclick = () => start().catch(err => { stop(); setStatus("采集失败", "bad"); el("raw").textContent = String(err); });
+    render();
+  </script>
+</body>
+</html>

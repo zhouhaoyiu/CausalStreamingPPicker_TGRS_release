@@ -2,7 +2,9 @@
 
 This archive is the TGRS supplementary release package for manuscript review and reproducibility checks.
 
-This archive contains the TGRS manuscript, runnable core code, model checkpoint metadata, sample replay data, preflight report, reproducibility manifest, figure sources, PNWAccelerometers labeled-accelerometer checks, and CI/FDSN continuous-stream evidence outputs.
+Public repository freeze tag: `v0.6-tgrs-submission`.
+
+This archive contains the TGRS manuscript, runnable core code, the HTTP streaming service and clients, browser demos, model checkpoint metadata, sample replay data, reproducibility manifest, figure sources, PNWAccelerometers labeled-accelerometer checks, and CI/FDSN continuous-stream evidence outputs.
 
 Raw third-party waveform records are not redistributed. Obtain public waveforms from their original providers.
 
@@ -13,6 +15,9 @@ Raw third-party waveform records are not redistributed. Obtain public waveforms 
 | `data/knet_accel/metadata.csv` | 2690062 | `797187d0015926b31238586bb5130c7077577281fb1cabf89f10213ab2ec882f` |
 | `data/samples/100samples.csv` | 33560 | `973c05e4d79eb74e6cda8c00b0c5e64396b9821d9d4ea58a3d127a72e98eb3e1` |
 | `data/samples/100samples.hdf5` | 7571888 | `1ac7024c16f0cd62d4e05c41e9920a8bd5359d10a8c35cd504a3dab419aeec02` |
+| `docs/device_accel_stream_demo.html` | 26040 | `e056f42c03741f51dd3d3e396f705acdad344663404e3a7cd87bb99474bc54e5` |
+| `docs/realtime_service_usage.md` | 7505 | `1e202a7b2f166e9aed6450c54edd7908e87ea6e55c653bb0d85b0107bf372ff6` |
+| `docs/realtime_stream_demo.html` | 18168 | `b68a061123607d2bb2b5a206c2aacccedfbbd81498a2b2d0cc09724ef0c524d4` |
 | `models/checkpoints/multidomain_best.pt` | 1132970 | `4e2dfa897410b77629440602b4e5404479ede7b7459db87ab862cacd7372b51d` |
 | `outputs/evaluation/delaunay_association/knet_lt4_dle200_delaunay_association_report.md` | 1644 | `37d863943f550b36e1347adccfc6e7c6e7786b309dd6aad804fcba42504ff54f` |
 | `outputs/evaluation/delaunay_association/knet_lt4_dle200_delaunay_association_summary.csv` | 702 | `b4f69aaeac7ad44167e5b2ebed5dfbc80cb3f291ced949860670c9506bd63b0a` |
@@ -32,9 +37,11 @@ Raw third-party waveform records are not redistributed. Obtain public waveforms 
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_network_coincidence_summary.csv` | 2215 | `00cc848a7e3dd4d1ae0b3d4179d0996cc37ff55de0d34b9ccba792680cfcee69` |
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_report.md` | 1525 | `c5973d4eb6425fa8fdfa6ada162e8365c58e9cc551e9f540b1ae9d79df4d31bd` |
 | `outputs/evaluation/fdsn_strong_motion_stationday_campaign_stable10/campaign_stationday_false_alarm_rates.csv` | 1410 | `26566a34c464d541f4e86371914dfbe943fc51c3917f8deb42a49349056e3828` |
-| `outputs/submission/tgrs_preflight_report.md` | 13488 | `bda27e3302e5bc35c2a468f42641f16b9bcea331f27d3b65ab6512e91490f854` |
-| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.md` | 28103 | `81c977699079d5fdc44405568d6c6377f3632fc7085d622288ad8a6b91cdd916` |
-| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.tsv` | 26925 | `57d5e4fb511fe8fef89d6ba546c1d0a9fa2e7c2d3bfadf61bc92c2a9bc0c0ea7` |
+| `outputs/submission/tgrs_main_latex/tgrs_causal_streaming_picker_latex.zip` | 424507 | `07edadd4f29ac6d5b1a1fcf0aa98f488ab187b45903d879c335e773d79761642` |
+| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.md` | 29207 | `a70973b681405a80e40520f8e3d8be71d0be3aace696bfde79492bb1274f3baa` |
+| `outputs/submission/tgrs_reproducibility/TGRS_REPRODUCIBILITY_MANIFEST.tsv` | 28460 | `d38d4d63f8e287113e3037a599d6357099fc576022fef8da884199fc5211de1f` |
+| `paper/tgrs/build_tgrs_main_latex.py` | 3133 | `db80e9a347e01f6fa13ff5d8b3bc3b1dac37f13a300fe702f0f7f333cb3dc67a` |
+| `paper/tgrs/external_evidence_closure_honest_20260617.tex` | 3485 | `357bf65f0824de9c32c1ce298891bb4de3f01a9a4f894d7d141abc26d0b1819e` |
 | `paper/tgrs/figures/fig0_compute_efficiency_cn.pdf` | 13420 | `c5a56f85b1fdfb8c5fa8a4a6ef6a28c3fc22a521d54d8122caf5b8470734e9c5` |
 | `paper/tgrs/figures/fig0_compute_efficiency_en.pdf` | 26135 | `bc4c8b9249c94ae8e47e352304467680dac71ea37be6ee490886505d417a5263` |
 | `paper/tgrs/figures/fig1_firstp_latency_cn.pdf` | 15369 | `010bf7a0c4ca88059cf128f6f575843b75c87eb344fc1eec23b3d2b5b8c6971b` |
@@ -102,13 +109,17 @@ Raw third-party waveform records are not redistributed. Obtain public waveforms 
 | `paper/tgrs/figures/table_station_detailed_metrics_en.tex` | 1611 | `09db4acb12970d14a70e5e6682fb9a6920c212fcf98d5f026f15a19b691b6f7a` |
 | `paper/tgrs/figures/table_stead_noise_false_alarm_en.tex` | 802 | `138725e98370d1257b85b71c072faec1744946fccd3c69dff1aa1e4d16b57cf3` |
 | `paper/tgrs/references.bib` | 29690 | `8003a79c8c28201334f78df4a61c318bb4efa07f98ba72a78576dc35299b35ef` |
-| `paper/tgrs/reproducibility/CITATION.cff` | 938 | `1911a837c5b1e5eef0b94a00b885fcedff922a9551f81315d5895a0b3db42900` |
+| `paper/tgrs/reproducibility/CITATION.cff` | 1194 | `7e5b8f93d2ccfb88900e420f399a3c28a42528431ac50993403589c7ddbdbe24` |
 | `paper/tgrs/reproducibility/LICENSE` | 1067 | `a083074bc5725255331d5cf80691ca44145da891af2da54fb4e5eb50e006dfbc` |
 | `paper/tgrs/reproducibility/MODEL_LICENSE` | 494 | `eec62a1786a92f6307e71432f1d9be659caa9cde791c133dcda760a57a09321c` |
 | `paper/tgrs/reproducibility/README.md` | 639 | `8d47a2d8129ee77f06ad6da5b01d69a5c7b7d9727bf77c86a250aa2de4d52b7d` |
-| `paper/tgrs/tgrs_causal_streaming_picker.pdf` | 686205 | `29f69067f8f0ec5988baaca6e8adc71ad80b74c9ebf6ce8a26a5cb49645f3e93` |
-| `paper/tgrs/tgrs_causal_streaming_picker.tex` | 62715 | `2db9d0864e97c84e47711e6b4275606555df26a9ebc9bd6b650f74a35e796333` |
+| `paper/tgrs/tgrs_causal_streaming_picker.bbl` | 19063 | `87c1a8f52bee2b16792a9b8c7d72ea76fdea8586023aab9da2b42afd28143841` |
+| `paper/tgrs/tgrs_causal_streaming_picker.pdf` | 691869 | `502f26e0d56324ab4b39ee61c673c1f2c0fd65e13e8cbf96b9703c17a42763ee` |
+| `paper/tgrs/tgrs_causal_streaming_picker.tex` | 62783 | `5567eaa6a1efc864246f14fef679d4491432de440c911a51a2b363d4e38f7db5` |
 | `requirements.txt` | 165 | `7479922b77e1b4ebec8c4199c5fb8c181c1d2de77fd1b2bd1cf796ae0e6b9c25` |
+| `scripts/demo/realtime_seedlink_client.py` | 6133 | `3d710f3224567e28e28cdd99fcccb6c2dd0f0d4fd3ac4471e4e387fe89cfb692` |
+| `scripts/demo/realtime_service.py` | 18050 | `81d262f27d817492953ca5e883ab7d41df0f74357681a3e5f88530a5c8423d0b` |
+| `scripts/demo/realtime_stream_client.py` | 5116 | `bd8707e45eb89b866d1fe5a5bc8e7163c2f8a2e59b0ffb0e3440be43aca4e0ed` |
 | `scripts/evaluation/combine_fdsn_campaign_summaries.py` | 6824 | `45baeea963fa66dbdb933771e941765fc9d65dca30cddbbe0fd4a96f751a5782` |
 | `scripts/evaluation/eval_compute_efficiency.py` | 34971 | `5b9eeebe01591082f0ebaeeca25e08886b8a20f0d7c5070c5b4599907b7df9d4` |
 | `scripts/evaluation/eval_cwa_tsmip_external.py` | 14629 | `8f0e2496663380cdc087722a9ba9b1da345f408d2220d6387663fe31023a88ca` |
@@ -123,4 +134,5 @@ Raw third-party waveform records are not redistributed. Obtain public waveforms 
 | `src/knet_dataset.py` | 7762 | `5877b6b21e8924ba51ee4a1c749bd921e20367181798e79dfaf183e50741a8d1` |
 | `src/model.py` | 184 | `f0dc6a04b603f0ce23e4ef1d9124411cce1c3508d6a379d73ebefc619eec046c` |
 | `src/model_impl.py` | 11534 | `1bc4c632b9526b1e00269c89e50b93b2e55747ccf5aa3f29e7b9d87cb70de0db` |
+| `src/model_v3.py` | 406 | `db26f25c47b0ab2123e38ab23b08a30a1b350c78b1bf4a5d2c7e06d4b3bd5860` |
 | `src/project_paths.py` | 789 | `b395f1f3ce51e5bb321e8d1faf3f75ae25da1a8c55493a6bbb020bf353a10276` |
