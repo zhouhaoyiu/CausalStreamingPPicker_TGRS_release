@@ -2,11 +2,15 @@ cff-version: 1.2.0
 message: "If you use this code, model checkpoint, or supplement archive, please cite the accompanying manuscript."
 type: software
 title: "CausalStreamingPPicker: Packet-Level Causal P-Wave Candidate Triggering in Strong-Motion Sensor Streams"
-version: "1.0.0"
-date-released: "2026-06-20"
+version: "0.6.0"
+date-released: "2026-07-10"
 authors:
   - family-names: "Zhou"
     given-names: "Haoyu"
+    orcid: "https://orcid.org/0009-0003-8817-1209"
+  - family-names: "Ma"
+    given-names: "Qiang"
+    orcid: "https://orcid.org/0000-0002-9768-5223"
 license: "MIT"
 abstract: "Reference implementation, model checkpoint, evaluation scripts, figure sources, and evidence outputs for packet-level causal P-wave candidate triggering in strong-motion sensor streams."
 preferred-citation:
@@ -15,7 +19,9 @@ preferred-citation:
   authors:
     - family-names: "Zhou"
       given-names: "Haoyu"
+      orcid: "https://orcid.org/0009-0003-8817-1209"
     - family-names: "Ma"
       given-names: "Qiang"
+      orcid: "https://orcid.org/0000-0002-9768-5223"
   year: 2026
   notes: "Accompanying manuscript supplied with the TGRS supplement archive."

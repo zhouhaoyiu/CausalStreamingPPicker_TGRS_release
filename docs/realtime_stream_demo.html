@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>实时流式P波拾取示意</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #667085;
+      --line: #d9dee7;
+      --blue: #2563eb;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .status {
+      min-width: 108px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      text-align: center;
+      background: #fff;
+    }
+    .status.ok { color: var(--green); border-color: #86efac; }
+    .status.bad { color: var(--red); border-color: #fca5a5; }
+    main { padding: 18px 24px 24px; }
+    .toolbar {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto auto auto auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+    label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    input, select, button {
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+    input, select { padding: 0 10px; width: 100%; }
+    button {
+      min-width: 78px;
+      padding: 0 12px;
+      cursor: pointer;
+      font-weight: 650;
+    }
+    button.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+    }
+    button.danger {
+      border-color: #fecaca;
+      color: var(--red);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 16px;
+    }
+    .viz-stack {
+      display: grid;
+      gap: 0;
+    }
+    section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+    }
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--line);
+    }
+    .metric {
+      min-width: 0;
+      padding: 12px 14px;
+      border-right: 1px solid var(--line);
+    }
+    .metric:last-child { border-right: 0; }
+    .metric b {
+      display: block;
+      min-height: 30px;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      background: #fbfcfe;
+    }
+    #waveform {
+      height: 380px;
+      border-bottom: 1px solid var(--line);
+    }
+    #chart { height: 230px; }
+    .plot-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .progress {
+      height: 10px;
+      background: #eef2f7;
+      border-bottom: 1px solid var(--line);
+    }
+    .progress div {
+      width: 0;
+      height: 100%;
+      background: var(--blue);
+    }
+    .packet-list {
+      height: 426px;
+      overflow: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    th, td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      white-space: nowrap;
+    }
+    th:first-child, td:first-child { text-align: left; }
+    th {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .trigger { color: var(--red); font-weight: 800; }
+    .candidate { color: #d97706; font-weight: 750; }
+    .idle { color: var(--muted); }
+    pre {
+      min-height: 58px;
+      max-height: 92px;
+      margin: 0;
+      padding: 12px 14px;
+      overflow: auto;
+      border-top: 1px solid var(--line);
+      color: #344054;
+      background: #fbfcfe;
+      font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    @media (max-width: 920px) {
+      .toolbar, .grid { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>实时流式P波拾取示意</h1>
+    <div id="status" class="status">未连接</div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <label>服务地址
+        <input id="baseUrl" value="http://127.0.0.1:8765">
+      </label>
+      <label>台站
+        <input id="stationId" value="WEB_DEMO">
+      </label>
+      <label>速度
+        <select id="speed">
+          <option value="1">1x</option>
+          <option value="5">5x</option>
+          <option value="20">20x</option>
+        </select>
+      </label>
+      <button id="healthBtn">检查</button>
+      <button id="resetBtn">重置</button>
+      <button id="stepBtn">单包</button>
+      <button id="runBtn" class="primary">开始</button>
+    </div>
+
+    <div class="grid">
+      <section>
+        <div class="section-head">
+          <div>实时流式推理</div>
+          <span>221 s, 442 包, 100 Hz, ZNE</span>
+        </div>
+        <div class="metrics">
+          <div class="metric"><b id="packetNo">0/442</b><span>包进度</span></div>
+          <div class="metric"><b id="probNow">0.000</b><span>当前概率</span></div>
+          <div class="metric"><b id="probMax">0.000</b><span>最大概率</span></div>
+          <div class="metric"><b id="triggerNo">0</b><span>确认触发次数</span></div>
+        </div>
+        <div class="progress"><div id="progressFill"></div></div>
+        <div class="viz-stack">
+          <div class="plot-title">
+            <div>三分量波形: 起点到当前</div>
+            <span id="waveWindow">0.0 - 0.0 s</span>
+          </div>
+          <canvas id="waveform" width="1180" height="380"></canvas>
+          <div class="plot-title">
+            <div>P 概率</div>
+            <span>0.55 单包候选 · 连续 2 包确认</span>
+          </div>
+          <canvas id="chart" width="1180" height="230"></canvas>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>推理日志</div>
+          <span id="lastTime">等待数据</span>
+        </div>
+        <div class="packet-list">
+          <table>
+            <thead>
+              <tr><th>包</th><th>时间(s)</th><th>概率</th><th>状态</th></tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <pre id="raw">{}</pre>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const SAMPLES = 50;
+    const TOTAL_SAMPLES = 22100;
+    const TOTAL_PACKETS = Math.floor(TOTAL_SAMPLES / SAMPLES);
+    const THRESHOLD = 0.55;
+    const state = {
+      running: false,
+      packet: 0,
+      timer: null,
+      rows: [],
+      maxProb: 0,
+      triggers: 0,
+      firstTriggerTime: null,
+      wave: [[], [], []]
+    };
+
+    const el = id => document.getElementById(id);
+    const statusEl = el("status");
+    const chart = el("chart");
+    const waveform = el("waveform");
+    const ctx = chart.getContext("2d");
+    const waveCtx = waveform.getContext("2d");
+
+    function service(path) {
+      return el("baseUrl").value.replace(/\/$/, "") + path;
+    }
+
+    function setStatus(text, cls) {
+      statusEl.textContent = text;
+      statusEl.className = "status " + (cls || "");
+    }
+
+    function packetData(packetNo) {
+      const out = [[], [], []];
+      const center = 72 * SAMPLES;
+      for (let i = 0; i < SAMPLES; i++) {
+        const t = packetNo * SAMPLES + i;
+        const onset = 1 / (1 + Math.exp(-(t - center) / 22));
+        const decay = Math.exp(-Math.max(0, t - center) / 1300);
+        const pulse = onset * decay;
+        const base = Math.sin(t * 0.11) * 0.012 + Math.sin(t * 0.017) * 0.009;
+        out[0].push(base + pulse * Math.sin(t * 0.58) * 0.22);
+        out[1].push(base * 0.7 + pulse * Math.sin(t * 0.51 + 0.9) * 0.15);
+        out[2].push(-base * 0.5 + pulse * Math.sin(t * 0.47 + 1.7) * 0.12);
+      }
+      return out;
+    }
+
+    function appendWave(packet) {
+      for (let c = 0; c < 3; c++) {
+        state.wave[c].push(...packet[c]);
+      }
+    }
+
+    async function health() {
+      const r = await fetch(service("/health"));
+      if (!r.ok) throw new Error("health " + r.status);
+      const body = await r.json();
+      setStatus("已连接", "ok");
+      el("raw").textContent = JSON.stringify(body, null, 2);
+    }
+
+    async function reset() {
+      stop();
+      const station = encodeURIComponent(el("stationId").value || "WEB_DEMO");
+      const r = await fetch(service("/reset?station_id=" + station), { method: "POST" });
+      if (!r.ok) throw new Error("reset " + r.status);
+      state.packet = 0;
+      state.rows = [];
+      state.maxProb = 0;
+      state.triggers = 0;
+      state.firstTriggerTime = null;
+      state.wave = [[], [], []];
+      render();
+      setStatus("已重置", "ok");
+      el("raw").textContent = JSON.stringify(await r.json(), null, 2);
+    }
+
+    async function step() {
+      if (state.packet >= TOTAL_PACKETS) {
+        stop();
+        setStatus("已完成", "ok");
+        return;
+      }
+      const data = packetData(state.packet);
+      const payload = {
+        station_id: el("stationId").value || "WEB_DEMO",
+        sampling_rate_hz: 100,
+        component_order: "ZNE",
+        scale_factor: 1,
+        data
+      };
+      const r = await fetch(service("/predict"), {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!r.ok) throw new Error("predict " + r.status);
+      const body = await r.json();
+      el("raw").textContent = JSON.stringify(body, null, 2);
+      for (const row of body.results || []) {
+        state.rows.push(row);
+        state.maxProb = Math.max(state.maxProb, row.p_probability);
+        if (row.trigger) {
+          state.triggers += 1;
+          if (state.firstTriggerTime === null) state.firstTriggerTime = row.time_sec;
+        }
+      }
+      appendWave(data);
+      state.packet += 1;
+      setStatus(state.packet >= TOTAL_PACKETS ? "已完成" : "推理中", "ok");
+      render();
+    }
+
+    function start() {
+      if (state.running) return stop();
+      state.running = true;
+      el("runBtn").textContent = "停止";
+      el("runBtn").classList.add("danger");
+      const tick = async () => {
+        try {
+          await step();
+          if (state.packet >= TOTAL_PACKETS) stop();
+        } catch (err) {
+          stop();
+          setStatus("连接失败", "bad");
+          el("raw").textContent = String(err);
+        }
+      };
+      tick();
+      const ms = 500 / Number(el("speed").value || 1);
+      state.timer = setInterval(tick, ms);
+    }
+
+    function stop() {
+      state.running = false;
+      clearInterval(state.timer);
+      state.timer = null;
+      el("runBtn").textContent = "开始";
+      el("runBtn").classList.remove("danger");
+    }
+
+    function render() {
+      const last = state.rows[state.rows.length - 1];
+      el("packetNo").textContent = `${state.packet}/${TOTAL_PACKETS}`;
+      el("probNow").textContent = last ? last.p_probability.toFixed(3) : "0.000";
+      el("probMax").textContent = state.maxProb.toFixed(3);
+      el("triggerNo").textContent = String(state.triggers);
+      const elapsed = Math.min(state.packet * 0.5, TOTAL_PACKETS * 0.5);
+      el("lastTime").textContent = last ? "已播放 " + elapsed.toFixed(1) + " s" : "等待数据";
+      el("progressFill").style.width = `${(state.packet / TOTAL_PACKETS) * 100}%`;
+      el("waveWindow").textContent = `0.0 - ${elapsed.toFixed(1)} s`;
+      el("rows").innerHTML = state.rows.slice(-80).reverse().map(row => {
+        const cls = row.trigger ? "trigger" : row.candidate ? "candidate" : "idle";
+        const label = row.trigger ? "确认触发" : row.boundary_excluded ? "边界忽略" : row.candidate ? "单包候选" : "未触发";
+        return `<tr><td>${row.packet_idx}</td><td>${row.time_sec.toFixed(1)}</td><td>${row.p_probability.toFixed(4)}</td><td class="${cls}">${label}</td></tr>`;
+      }).join("");
+      drawWaveform();
+      drawProbability();
+    }
+
+    function drawProbability() {
+      const w = chart.width, h = chart.height;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#fbfcfe";
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = "#fff7ed";
+      ctx.fillRect(0, 0, w, h - THRESHOLD * h);
+      ctx.strokeStyle = "#d9dee7";
+      ctx.lineWidth = 1;
+      for (let i = 1; i < 4; i++) {
+        const y = (h / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+      const yThr = h - THRESHOLD * h;
+      ctx.strokeStyle = "#d97706";
+      ctx.setLineDash([6, 5]);
+      ctx.beginPath();
+      ctx.moveTo(0, yThr);
+      ctx.lineTo(w, yThr);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#d97706";
+      ctx.font = "bold 14px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+      ctx.fillText("0.55", 12, yThr - 8);
+      const rows = state.rows;
+      ctx.fillStyle = "#667085";
+      ctx.fillText("1.00", 12, 20);
+      ctx.fillText("0.00", 12, h - 10);
+      if (rows.length < 2) return;
+      ctx.strokeStyle = "#2563eb";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      rows.forEach((row, i) => {
+        const x = (i / Math.max(rows.length - 1, 1)) * (w - 80) + 58;
+        const y = h - Math.max(0, Math.min(1, row.p_probability)) * (h - 30) - 15;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      drawTriggerLine(ctx, w, h, rows.length, 58, w - 22, "prob");
+      const last = rows[rows.length - 1];
+      const x = 58 + ((rows.length - 1) / Math.max(rows.length - 1, 1)) * (w - 80);
+      const y = h - Math.max(0, Math.min(1, last.p_probability)) * (h - 30) - 15;
+      ctx.fillStyle = last.trigger ? "#dc2626" : last.candidate ? "#d97706" : "#2563eb";
+      ctx.beginPath();
+      ctx.arc(x, y, 7, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawWaveform() {
+      const w = waveform.width, h = waveform.height;
+      waveCtx.clearRect(0, 0, w, h);
+      waveCtx.fillStyle = "#fbfcfe";
+      waveCtx.fillRect(0, 0, w, h);
+      const colors = ["#2563eb", "#16a34a", "#dc2626"];
+      const labels = ["Z", "N", "E"];
+      for (let c = 0; c < 3; c++) {
+        const top = c * (h / 3);
+        const laneH = h / 3;
+        const mid = top + laneH / 2;
+        waveCtx.fillStyle = c % 2 ? "#ffffff" : "#f8fafc";
+        waveCtx.fillRect(0, top, w, laneH);
+        waveCtx.strokeStyle = "#d9dee7";
+        waveCtx.lineWidth = 1;
+        waveCtx.beginPath();
+        waveCtx.moveTo(0, mid);
+        waveCtx.lineTo(w, mid);
+        waveCtx.stroke();
+        waveCtx.fillStyle = colors[c];
+        waveCtx.font = "bold 18px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+        waveCtx.fillText(labels[c], 16, mid - 14);
+        const data = state.wave[c];
+        if (data.length < 2) continue;
+        let peak = 0.001;
+        for (const v of data) peak = Math.max(peak, Math.abs(v));
+        waveCtx.strokeStyle = colors[c];
+        waveCtx.lineWidth = 2.6;
+        waveCtx.beginPath();
+        data.forEach((v, i) => {
+          const x = (i / Math.max(data.length - 1, 1)) * (w - 78) + 58;
+          const y = mid - (v / peak) * (laneH * 0.38);
+          if (i === 0) waveCtx.moveTo(x, y);
+          else waveCtx.lineTo(x, y);
+        });
+        waveCtx.stroke();
+      }
+      drawTriggerLine(waveCtx, w, h, state.wave[0].length, 58, w - 20, "wave");
+      waveCtx.fillStyle = "#667085";
+      waveCtx.font = "13px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+      waveCtx.fillText("0 s", 58, h - 12);
+      waveCtx.fillText("右: 当前包", w - 108, h - 12);
+    }
+
+    function drawTriggerLine(target, w, h, length, x0, x1, mode) {
+      if (state.firstTriggerTime === null || length < 2) return;
+      const triggerIndex = mode === "wave" ? state.firstTriggerTime * 100 : state.firstTriggerTime / 0.5;
+      const x = x0 + (triggerIndex / Math.max(length - 1, 1)) * (x1 - x0);
+      if (x < x0 || x > x1) return;
+      target.save?.();
+      target.strokeStyle = "#dc2626";
+      target.lineWidth = mode === "wave" ? 3 : 2;
+      target.setLineDash([8, 5]);
+      target.beginPath();
+      target.moveTo(x, 0);
+      target.lineTo(x, h);
+      target.stroke();
+      target.setLineDash([]);
+      target.fillStyle = "#dc2626";
+      target.font = "bold 15px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+      target.fillText(`触发 ${state.firstTriggerTime.toFixed(1)} s`, Math.min(x + 8, w - 112), mode === "wave" ? 24 : 42);
+      target.restore?.();
+    }
+
+    el("healthBtn").onclick = () => health().catch(err => { setStatus("连接失败", "bad"); el("raw").textContent = String(err); });
+    el("resetBtn").onclick = () => reset().catch(err => { setStatus("重置失败", "bad"); el("raw").textContent = String(err); });
+    el("stepBtn").onclick = () => step().catch(err => { setStatus("推理失败", "bad"); el("raw").textContent = String(err); });
+    el("runBtn").onclick = start;
+    render();
+  </script>
+</body>
+</html>
